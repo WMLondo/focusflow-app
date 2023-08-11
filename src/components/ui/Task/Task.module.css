@@ -1,0 +1,51 @@
+.container {
+    position: relative;
+    background-color: var(--secondary-color);
+    display: flex;
+    padding: 16px;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    border-radius: 5px;
+    z-index: 0;
+}
+
+.title {
+    color: var(--primary-color-200);
+    font-size: var(--font-size-l);
+    font-weight: var(--font-weight-700);
+    line-height: normal;
+    align-self: flex-start;
+}
+
+.follow-button {
+    padding: 8px 24px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    align-self: flex-end;
+    border-radius: 2px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--primary-color-100);
+    }
+
+    &:active {
+        background-color: var(--primary-color-200);
+    }
+}
+
+.exit-button {
+    fill: var(--primary-color);
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    font-size: var(--font-size-l);
+    cursor: pointer;
+
+    &:hover {
+        fill: var(--primary-color-200);
+    }
+}

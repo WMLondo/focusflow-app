@@ -1,0 +1,7 @@
+.title {
+    color: var(--secondary-color);
+    font-size: var(--font-size-l);
+    font-style: normal;
+    font-weight: var(--font-weight-400);
+    line-height: normal;
+}

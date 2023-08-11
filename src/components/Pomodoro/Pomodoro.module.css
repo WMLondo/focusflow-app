@@ -1,0 +1,28 @@
+.container {
+    min-height: 243px;
+    min-width: 326px;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    background-color: red;
+    padding: 16px 66px;
+}
+
+.action {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.icon-button {
+    height: 42px;
+    width: 42px;
+    fill: var(--primary-color-200);
+    cursor: pointer;
+}

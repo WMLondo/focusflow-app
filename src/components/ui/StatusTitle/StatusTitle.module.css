@@ -1,0 +1,7 @@
+.status {
+    color: var(--primary-color-200);
+    font-size: var(--font-size-l);
+    font-style: normal;
+    font-weight: var(--font-weight-300);
+    line-height: normal;
+}
