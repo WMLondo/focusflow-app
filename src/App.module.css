@@ -17,15 +17,9 @@
 
 .centered {
   display: flex;
-  width: 100%;
+  width: clamp(640px, 640px, 90%);
   flex-direction: column;
   gap: 24px;
   padding: 85px 32px;
   min-height: 100vh;
-}
-
-@media screen and (min-width:640px) {
-  .centered {
-    width: 640px;
-  }
 }

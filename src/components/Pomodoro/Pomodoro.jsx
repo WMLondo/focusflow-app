@@ -9,9 +9,12 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import Modal from "../ui/Modal/Modal";
 import { useTask } from "../../context/task-context";
 import { TASK_STATUS_VALUE } from "../../constants/task-status";
+import useAudio from "../../hooks/useAudio";
+import clickSound from "../../assets/audio/click-sound/2e27afee-350b-4e6f-bcbb-920018b752b4.mp3";
 
 const Pomodoro = () => {
   const { getTask, changeTaskStatusHandler } = useTask();
+  const audio = useAudio(clickSound);
   const [start, setStart] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [restart, setRestart] = useState(false);
@@ -107,7 +110,7 @@ const Pomodoro = () => {
             style={{
               backgroundColor: status.backgroundColor,
               boxShadow: `${
-                isStarted ? "0px 0px 10px 4px rgba(0, 0, 0, 0.25) inset" : ""
+                start ? "0px 0px 10px 4px rgba(0, 0, 0, 0.25) inset" : ""
               }`,
             }}
           >
@@ -131,6 +134,7 @@ const Pomodoro = () => {
                 }}
                 click={() => {
                   setStart((prevState) => !prevState);
+                  audio.play();
                 }}
               >
                 {start ? "PAUSE" : "START"}

@@ -2,6 +2,28 @@ import React from "react";
 import { createPortal } from "react-dom";
 import classes from "./Modal.module.css";
 import { IoClose } from "react-icons/io5";
+import { motion } from "framer-motion";
+
+const dropIn = {
+  hidden: {
+    y: "-100vh",
+    opacity: "0",
+  },
+  visible: {
+    y: "0",
+    opacity: "1",
+    transition: {
+      duration: 0.1,
+      type: "spring",
+      damping: 50,
+      stiffness: 300,
+    },
+  },
+  exit: {
+    y: "-100vh",
+    opacity: "0",
+  },
+};
 
 const Modal = (props) => {
   const { children, open, click } = props;
@@ -9,11 +31,24 @@ const Modal = (props) => {
   if (!open) return null;
 
   return createPortal(
-    <div className={classes.backdrop} onClick={click}>
-      <div className={classes.container} onClick={(e) => e.stopPropagation()}>
+    <motion.div
+      className={classes.backdrop}
+      onClick={click}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      end={{ opacity: 0 }}
+    >
+      <motion.div
+        className={classes.container}
+        onClick={(e) => e.stopPropagation()}
+        variants={dropIn}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
         {children}
-      </div>
-    </div>,
+      </motion.div>
+    </motion.div>,
     document.getElementById("overlay-root")
   );
 };

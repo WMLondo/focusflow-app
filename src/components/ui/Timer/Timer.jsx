@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import classes from "./Timer.module.css";
+import useAudio from "../../../hooks/useAudio";
+import countdownAudio from "../../../assets/audio/countdown/0fb2d523-9d92-4177-af4e-5260d6a42663.mp3";
 
 const Timer = (props) => {
   const { start, countdown, timerReset } = props;
   const [timer, setTimer] = useState(countdown);
+  const audio = useAudio(countdownAudio);
   useEffect(() => {
     if (timer === 0) return props.startNext();
+
+    if (timer === 1000 * 5) audio.play();
+
     if (!start) return;
     const intervalId = setInterval(() => {
       setTimer((prevState) => prevState - 1000);
@@ -14,8 +20,8 @@ const Timer = (props) => {
   }, [timer, start]);
 
   useEffect(() => {
-    setTimer(countdown)
-  }, [timerReset, countdown])
+    setTimer(countdown);
+  }, [timerReset, countdown]);
 
   const formatPomodoroClock = (currentTimerValue) => {
     const currentTime = new Date(currentTimerValue);

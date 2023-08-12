@@ -1,23 +1,44 @@
 import classes from "./App.module.css";
-import Header from "./components/Header/Header";
 import Pomodoro from "./components/Pomodoro/Pomodoro";
 import TaskMenu from "./components/TaskMenu/TaskMenu";
 import { TaskProvider } from "./context/task-context";
-import Tasks from "./components/Tasks/Tasks";
-import bgVideoNight from "./assets/bg/44d8cc48-4db8-4be5-8530-ec86dfe871bf.webm";
-import bgVideoDay from "./assets/bg/8a4d521f-4b34-41b0-a1cb-7f30984f033d.webm";
-import logo from "./assets/logo/97ced400-bd62-48cd-a883-f2ec8daa6fa9.ico";
+import bgVideoNight from "./assets/image/bg/44d8cc48-4db8-4be5-8530-ec86dfe871bf.webm";
+import bgVideoDay from "./assets/image/bg/8a4d521f-4b34-41b0-a1cb-7f30984f033d.webm";
+import { Suspense, lazy, useEffect, useState } from "react";
+
+const Tasks = lazy(() => import("./components/Tasks/Tasks"));
+const Header = lazy(() => import("./components/Header/Header"));
+
 function App() {
+  const [background, setBackground] = useState(bgVideoDay);
+
+  const updateBackground = () => {
+    const hours = new Date().getHours();
+    if (hours >= 6 && hours <= 18) {
+      setBackground(bgVideoDay);
+    } else {
+      setBackground(bgVideoNight);
+    }
+  };
+  useEffect(() => {
+    updateBackground();
+    const interval = setInterval(() => {
+      updateBackground;
+    }, 1000 * 60 * 60);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <>
-      <TaskProvider>
-        <main className={classes.app}>
+    <TaskProvider>
+      <main className={classes.app}>
+        <Suspense fallback={<p>Loading...</p>}>
           <video
             className={classes["background-video"]}
             autoPlay
             loop
             muted
-            src={bgVideoDay}
+            src={background}
           ></video>
           <div className={classes.centered}>
             <Header />
@@ -25,9 +46,9 @@ function App() {
             <TaskMenu />
             <Tasks />
           </div>
-        </main>
-      </TaskProvider>
-    </>
+        </Suspense>
+      </main>
+    </TaskProvider>
   );
 }
 
