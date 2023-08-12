@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    min-width: 326px;
+    width: clamp(326px, 326px, 90%);
     padding: 32px 16px;
     border-radius: 12px;
     background-color: var(--primary-color-100);
