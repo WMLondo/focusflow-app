@@ -21,3 +21,6 @@ Esta es una aplicación de Pomodoro con manejador de tareas construida con React
 - Context API & Reducer API: para manejar el estado de la aplicación
 - Framer Motion: para animaciones y transiciones
 - React Icons: para iconos de la interfaz de usuario
+
+## Nota
+**Esta rama es solamente para publicar la aplicacion, para desarrollo se utiliza la branch `develop`**
