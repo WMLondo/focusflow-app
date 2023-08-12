@@ -5,6 +5,7 @@ const WatchClock = () => {
   const [currentTime, setCurrentTime] = useState("");
 
   useEffect(() => {
+    setCurrentTime(new Date().toLocaleTimeString());
     const interval = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString());
     }, 1000);
