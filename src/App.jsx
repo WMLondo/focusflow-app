@@ -6,7 +6,6 @@ import bgVideoNight from "./assets/image/bg/44d8cc48-4db8-4be5-8530-ec86dfe871bf
 import bgVideoDay from "./assets/image/bg/8a4d521f-4b34-41b0-a1cb-7f30984f033d.webm";
 import { Suspense, lazy, useEffect, useState } from "react";
 import Loading from "./components/ui/Loading/Loading";
-import useFetch from "./hooks/useFetch";
 
 const Tasks = lazy(() => import("./components/Tasks/Tasks"));
 const Header = lazy(() => import("./components/Header/Header"));
