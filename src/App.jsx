@@ -31,9 +31,9 @@ function App() {
   }, []);
 
   return (
-    <TaskProvider>
-      <main className={classes.app}>
-        <Suspense fallback={<Loading />}>
+    <Suspense fallback={<Loading />}>
+      <TaskProvider>
+        <main className={classes.app}>
           <video
             className={classes["background-video"]}
             autoPlay
@@ -47,9 +47,9 @@ function App() {
             <TaskMenu />
             <Tasks />
           </div>
-        </Suspense>
-      </main>
-    </TaskProvider>
+        </main>
+      </TaskProvider>
+    </Suspense>
   );
 }
 
