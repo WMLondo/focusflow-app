@@ -6,6 +6,7 @@ import bgVideoNight from "./assets/image/bg/44d8cc48-4db8-4be5-8530-ec86dfe871bf
 import bgVideoDay from "./assets/image/bg/8a4d521f-4b34-41b0-a1cb-7f30984f033d.webm";
 import { Suspense, lazy, useEffect, useState } from "react";
 import Loading from "./components/ui/Loading/Loading";
+import BackgroundVideo from "./components/ui/BackgroundVideo/BackgroundVideo";
 
 const Tasks = lazy(() => import("./components/Tasks/Tasks"));
 const Header = lazy(() => import("./components/Header/Header"));
@@ -15,12 +16,10 @@ function App() {
 
   const updateBackground = () => {
     const hours = new Date().getHours();
-    if (hours >= 6 && hours <= 18) {
-      setBackground(bgVideoDay);
-    } else {
-      setBackground(bgVideoNight);
-    }
+    if (hours >= 6 && hours <= 18) setBackground(bgVideoDay);
+    if (hours >= 19 && hours <= 5) setBackground(bgVideoNight);
   };
+
   useEffect(() => {
     updateBackground();
     const interval = setInterval(() => {
@@ -34,13 +33,7 @@ function App() {
     <Suspense fallback={<Loading />}>
       <TaskProvider>
         <main className={classes.app}>
-          <video
-            className={classes["background-video"]}
-            autoPlay
-            loop
-            muted
-            src={background}
-          ></video>
+          <BackgroundVideo video={background} />
           <div className={classes.centered}>
             <Header />
             <Pomodoro />
