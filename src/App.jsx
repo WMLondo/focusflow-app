@@ -30,8 +30,8 @@ function App() {
   }, []);
 
   return (
-    <Suspense fallback={<Loading />}>
-      <TaskProvider>
+    <TaskProvider>
+      <Suspense fallback={<Loading />}>
         <main className={classes.app}>
           <BackgroundVideo video={background} />
           <div className={classes.centered}>
@@ -41,8 +41,8 @@ function App() {
             <Tasks />
           </div>
         </main>
-      </TaskProvider>
-    </Suspense>
+      </Suspense>
+    </TaskProvider>
   );
 }
 

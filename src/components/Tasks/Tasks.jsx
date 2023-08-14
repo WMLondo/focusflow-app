@@ -7,7 +7,6 @@ import { TASK_STATUS_VALUE } from "../../constants/task-status";
 const Tasks = () => {
   const { tasks, filter, changeTaskStatusHandler, removeTaskHandler } =
     useTask();
-
   let filteredTasks =
     filter !== ""
       ? tasks.filter((task) => task.status === filter)

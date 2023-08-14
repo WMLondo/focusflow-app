@@ -59,15 +59,16 @@ Modal.Title = (props) => {
 
 Modal.Textarea = (props) => {
   const blurEnterMobileHandler = (e) => {
-    e.preventDefault();
     if (e.key === "Enter") return e.target.blur();
   };
+
   return (
     <textarea
       className={classes.textarea}
       type="text"
       id={crypto.randomUUID()}
       maxLength="160"
+      value={props.value}
       placeholder={props.placeholder}
       onChange={props.change}
       onKeyDown={blurEnterMobileHandler}
