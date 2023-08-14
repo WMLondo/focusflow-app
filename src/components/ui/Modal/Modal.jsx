@@ -53,6 +53,10 @@ const Modal = (props) => {
   );
 };
 
+Modal.Header = (props) => {
+  return <div className={classes.header}>{props.children}</div>;
+};
+
 Modal.Title = (props) => {
   return <h2 className={classes.title}>{props.children}</h2>;
 };

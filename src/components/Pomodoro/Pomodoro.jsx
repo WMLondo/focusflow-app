@@ -85,12 +85,14 @@ const Pomodoro = () => {
           setModalIsOpen(false);
         }}
       >
-        <Modal.CloseButton
-          click={() => {
-            setModalIsOpen(false);
-          }}
-        />
-        <Modal.Title>Did you complete this tasks?</Modal.Title>
+        <Modal.Header>
+          <Modal.CloseButton
+            click={() => {
+              setModalIsOpen(false);
+            }}
+          />
+          <Modal.Title>Did you complete this tasks?</Modal.Title>
+        </Modal.Header>
         <Modal.ConfirmationButton click={closeTaskHandler}>
           YES
         </Modal.ConfirmationButton>

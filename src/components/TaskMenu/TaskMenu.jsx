@@ -73,7 +73,9 @@ const TaskMenu = () => {
         New Task
       </Button>
       <Modal click={closeHandler} open={isOpen} id={modalId}>
-        <Modal.CloseButton click={closeHandler} />
+        <Modal.Header>
+          <Modal.CloseButton click={closeHandler} />
+        </Modal.Header>
         <Modal.Textarea
           placeholder="What are you working on?"
           value={inputValue.title}
