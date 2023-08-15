@@ -10,6 +10,10 @@ Task.Title = ({ children }) => {
   return <h3 className={classes.title}>{children}</h3>;
 };
 
+Task.Action = ({ children }) => {
+  return <div className={classes.action}>{children}</div>;
+};
+
 Task.FollowButton = (props) => {
   const { children, click, variant } = props;
   return (

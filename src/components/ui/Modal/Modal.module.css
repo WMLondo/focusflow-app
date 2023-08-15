@@ -16,14 +16,22 @@
     flex-direction: column;
     position: relative;
     width: clamp(326px, 326px, 90%);
-    padding: 32px 16px;
+    padding: 16px;
     border-radius: 12px;
-    background-color: var(--primary-color-100);
+    background-color: var(--primary-color);
     z-index: 1000;
     gap: 12px;
 }
 
+.header {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .title {
+    width: 80%;
     color: var(--secondary-color);
     font-size: var(--font-size-l);
     font-weight: var(--font-weight-400);
@@ -36,7 +44,7 @@
     height: 172px;
     border-radius: 5px;
     background-color: var(--secondary-color);
-    color: #A87C7C;
+    color: var(--neutral-color);
     font-size: var(--font-size-l);
     font-style: italic;
     font-weight: var(--font-weight-400);
@@ -55,17 +63,15 @@
     padding: 12px 32px;
     text-align: center;
     border-radius: 5px;
-    color: var(--primary-color-100);
+    color: var(--primary-color);
+    font-size: var(--font-size-m);
+    font-weight: var(--font-weight-400);
     background-color: var(--secondary-color);
     border: none;
+}
 
-    &:hover {
-        background-color: var(--secondary-color-50);
-    }
-
-    &:active {
-        background-color: var(--secondary-color);
-    }
+.confirmation-button:hover {
+    background-color: var(--secondary-color-100);
 }
 
 .back-button {
@@ -79,23 +85,30 @@
     font-weight: var(--font-weight-400);
     color: var(--secondary-color);
     background-color: transparent;
+}
 
-    &:hover {
-        color: var(--primary-color-100);
-        background-color: var(--secondary-color);
-    }
+.back-button:hover {
+    color: var(--primary-color-100);
+    background-color: var(--secondary-color);
+}
 
-    &:active {
-        color: var(--primary-color-100);
-        background-color: var(--secondary-color-50);
-    }
+.back-button:active {
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
 }
 
 .exit {
     cursor: pointer;
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    font-size: var(--font-size-l);
+    width: clamp(32px, 32px, 44px);
+    height: clamp(32px, 32px, 44px);
+    position: relative;
+    align-self: flex-start;
+    font-size: var(--font-size-s);
     fill: var(--secondary-color);
+    border-radius: 5px;
+    background-color: var(--primary-color-100);
+}
+
+.exit:hover {
+    background-color: var(--primary-color-200);
 }

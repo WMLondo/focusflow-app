@@ -53,21 +53,26 @@ const Modal = (props) => {
   );
 };
 
+Modal.Header = (props) => {
+  return <div className={classes.header}>{props.children}</div>;
+};
+
 Modal.Title = (props) => {
   return <h2 className={classes.title}>{props.children}</h2>;
 };
 
 Modal.Textarea = (props) => {
   const blurEnterMobileHandler = (e) => {
-    e.preventDefault();
     if (e.key === "Enter") return e.target.blur();
   };
+
   return (
     <textarea
       className={classes.textarea}
       type="text"
       id={crypto.randomUUID()}
       maxLength="160"
+      value={props.value}
       placeholder={props.placeholder}
       onChange={props.change}
       onKeyDown={blurEnterMobileHandler}

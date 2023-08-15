@@ -7,27 +7,29 @@ import TaskOption from "../ui/TaskOption/TaskOption";
 import { useTask } from "../../context/task-context";
 import Modal from "../ui/Modal/Modal";
 
+const inputInitialValue = {
+  id: crypto.randomUUID(),
+  title: "",
+  status: TASK_STATUS_VALUE.PENDING,
+};
+
 const TaskMenu = () => {
   const { addTaskHandler } = useTask();
   const { filter, changeFilterHandler } = useTask();
   const [dropdown, setDropdown] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [inputValue, setInputValue] = useState({});
+  const [inputValue, setInputValue] = useState(inputInitialValue);
   const modalId = useId();
 
   const closeHandler = () => {
-    setInputValue({});
+    setInputValue(inputInitialValue);
     setIsOpen(false);
   };
   const openHandler = () => {
     setIsOpen(true);
   };
   const handlerChange = (e) =>
-    setInputValue({
-      id: crypto.randomUUID(),
-      title: e.target.value,
-      status: TASK_STATUS_VALUE.PENDING,
-    });
+    setInputValue((prevState) => ({ ...prevState, title: e.target.value }));
 
   const addHandler = () => {
     if (!inputValue.title || inputValue.title === "") return;
@@ -64,17 +66,14 @@ const TaskMenu = () => {
           })}
         </ul>
       </div>
-      <Button
-        variant={{ color: "var(--neutral-color-min)" }}
-        click={openHandler}
-      >
-        New Task
-      </Button>
+      <Button click={openHandler}>New Task</Button>
       <Modal click={closeHandler} open={isOpen} id={modalId}>
-        <Modal.CloseButton click={closeHandler} />
+        <Modal.Header>
+          <Modal.CloseButton click={closeHandler} />
+        </Modal.Header>
         <Modal.Textarea
           placeholder="What are you working on?"
-          value={inputValue}
+          value={inputValue.title}
           change={handlerChange}
         ></Modal.Textarea>
         <Modal.ConfirmationButton click={addHandler}>
