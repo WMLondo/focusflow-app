@@ -66,12 +66,7 @@ const TaskMenu = () => {
           })}
         </ul>
       </div>
-      <Button
-        variant={{ color: "var(--neutral-color-min)" }}
-        click={openHandler}
-      >
-        New Task
-      </Button>
+      <Button click={openHandler}>New Task</Button>
       <Modal click={closeHandler} open={isOpen} id={modalId}>
         <Modal.Header>
           <Modal.CloseButton click={closeHandler} />

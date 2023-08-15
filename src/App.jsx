@@ -17,7 +17,7 @@ function App() {
   const updateBackground = () => {
     const hours = new Date().getHours();
     if (hours >= 6 && hours <= 18) setBackground(bgVideoDay);
-    if (hours >= 19 && hours <= 5) setBackground(bgVideoNight);
+    else setBackground(bgVideoNight);
   };
 
   useEffect(() => {

@@ -1,22 +1,32 @@
 .container {
-    position: relative;
     background-color: var(--secondary-color);
     display: flex;
     padding: 16px;
     width: 100%;
-    flex-direction: column;
+    min-height: 120px;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     gap: 12px;
     border-radius: 5px;
     z-index: 0;
 }
 
 .title {
-    color: var(--primary-color-200);
+    color: var(--neutral-color);
     font-size: var(--font-size-l);
     font-weight: var(--font-weight-700);
     line-height: normal;
     align-self: flex-start;
+}
+
+.action {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    align-self: flex-end;
+    height: 100%;
 }
 
 .follow-button {
@@ -38,10 +48,8 @@
 }
 
 .exit-button {
-    fill: var(--primary-color);
-    position: absolute;
-    right: 4px;
-    top: 4px;
+    fill: var(--neutral-color);
+    position: relative;
     font-size: var(--font-size-l);
     cursor: pointer;
 

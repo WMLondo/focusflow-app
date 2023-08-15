@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: row;
     gap: 4px;
-    color: var(--neutral-color-max);
+    color: var(--secondary-color);
     font-size: var(--font-size-m);
     font-style: normal;
     font-weight: var(--font-weight-700);
@@ -13,7 +13,7 @@
 }
 
 .icon {
-    fill: var(--neutral-color-max);
+    fill: var(--secondary-color);
     width: 12px;
     height: 12px;
 }

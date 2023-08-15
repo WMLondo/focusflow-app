@@ -1,11 +1,10 @@
 :root {
-  --primary-color: #f8ad9d;
-  --primary-color-100: #f4978e;
-  --primary-color-200: #f08080;
-  --secondary-color: #ffdab9;
-  --secondary-color-50: #fbc4ab;
-  --neutral-color-max: #ffffff;
-  --neutral-color-min: #2c2c2c;
+  --primary-color: #d04643;
+  --primary-color-100: #d55a57;
+  --primary-color-200: #da6e6c;
+  --secondary-color: #fff;
+  --secondary-color-100: #D9D9D9;
+  --neutral-color: #2c2c2c;
   --font-size-s: 12px;
   --font-size-m: 16px;
   --font-size-l: 24px;
@@ -30,5 +29,5 @@
 body {
   margin: 0;
   background-color: var(--neutral-color-min);
+  scrollbar-gutter: stable both-edges;
 }
-

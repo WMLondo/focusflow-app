@@ -3,20 +3,20 @@
     justify-content: center;
     align-items: center;
     background-color: var(--primary-color);
-    box-shadow: var(--primary-color) 0px 8px 24px;
+    box-shadow: var(--primary-color) 0px 4px 10px;
     border: none;
     font-size: var(--font-size-m);
     padding: 12px 32px;
-    color: var(--neutral-color-max);
+    color: var(--secondary-color);
     font-weight: var(--font-weight-800);
     cursor: pointer;
     border-radius: 5px;
+}
 
-    &:hover {
-        background-color: var(--primary-color-100);
-    }
+.button:hover {
+    background-color: var(--primary-color-100);
+}
 
-    &:active {
-        background-color: var(--primary-color-200);
-    }
+.button:active {
+    background-color: var(--primary-color-200);
 }
