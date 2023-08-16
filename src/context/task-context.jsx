@@ -24,8 +24,14 @@ export const TaskProvider = ({ children }) => {
     return state.tasks.find((currentTask) => condition(currentTask));
   };
 
-  const addTask = (task) => {
-    const updatedTasks = state.tasks.concat(task);
+  const addTask = (taskValue) => {
+    const newTask = {
+      id: crypto.randomUUID(),
+      title: taskValue,
+      status: TASK_STATUS_VALUE.PENDING,
+    };
+    
+    const updatedTasks = state.tasks.concat(newTask);
     dispatch({
       type: TASK_ACTIONS.ADD_TASK,
       payload: {

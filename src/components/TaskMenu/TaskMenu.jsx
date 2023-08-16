@@ -7,32 +7,24 @@ import TaskOption from "../ui/TaskOption/TaskOption";
 import { useTask } from "../../context/task-context";
 import Modal from "../ui/Modal/Modal";
 
-const inputInitialValue = {
-  id: crypto.randomUUID(),
-  title: "",
-  status: TASK_STATUS_VALUE.PENDING,
-};
-
 const TaskMenu = () => {
-  const { addTaskHandler } = useTask();
-  const { filter, changeFilterHandler } = useTask();
+  const { addTaskHandler, filter, changeFilterHandler } = useTask();
   const [dropdown, setDropdown] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [inputValue, setInputValue] = useState(inputInitialValue);
+  const [inputValue, setInputValue] = useState("");
   const modalId = useId();
 
   const closeHandler = () => {
-    setInputValue(inputInitialValue);
+    setInputValue("");
     setIsOpen(false);
   };
   const openHandler = () => {
     setIsOpen(true);
   };
-  const handlerChange = (e) =>
-    setInputValue((prevState) => ({ ...prevState, title: e.target.value }));
+  const handlerChange = (e) => setInputValue(e.target.value);
 
   const addHandler = () => {
-    if (!inputValue.title || inputValue.title === "") return;
+    if (!inputValue || inputValue === "") return;
     addTaskHandler(inputValue);
     closeHandler();
   };
@@ -73,7 +65,7 @@ const TaskMenu = () => {
         </Modal.Header>
         <Modal.Textarea
           placeholder="What are you working on?"
-          value={inputValue.title}
+          value={inputValue}
           change={handlerChange}
         ></Modal.Textarea>
         <Modal.ConfirmationButton click={addHandler}>
