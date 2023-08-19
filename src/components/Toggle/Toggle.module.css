@@ -1,0 +1,22 @@
+.toggle {
+    position: absolute;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    background-color: var(--secondary-color);
+    height: auto;
+    width: 53px;
+    padding: 2px;
+    border-radius: 50px;
+}
+
+.circle {
+    background-color: var(--neutral-color);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
