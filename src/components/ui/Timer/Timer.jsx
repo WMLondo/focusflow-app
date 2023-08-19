@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import classes from "./Timer.module.css";
-import useAudio from "../../../hooks/useAudio";
+import useAudio from "../../../hooks/use-audio";
 import countdownAudio from "../../../assets/audio/countdown/0fb2d523-9d92-4177-af4e-5260d6a42663.mp3";
 
 const Timer = (props) => {

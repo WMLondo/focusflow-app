@@ -2,7 +2,7 @@ export const POMODORO_STATUS = [
   {
     id: crypto.randomUUID(),
     title: "POMODORO",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "var(--secondary-color)",
     timeAmount: 1000 * 60 * 25,
   },
   {

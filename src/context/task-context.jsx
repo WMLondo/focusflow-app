@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect } from "react";
 import taskReducer, { initialState } from "../features/taskReducer";
 import { useReducer } from "react";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useLocalStorage } from "../hooks/use-local-storage";
 import { TASK_ACTIONS } from "../constants/task-actions";
 import { TASK_STATUS_VALUE } from "../constants/task-status";
 

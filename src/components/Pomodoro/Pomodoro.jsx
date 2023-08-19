@@ -5,11 +5,11 @@ import classes from "./Pomodoro.module.css";
 import StatusTitle from "../ui/StatusTitle/StatusTitle";
 import { MdRestore, MdSkipNext } from "react-icons/md";
 import { POMODORO_STATUS } from "../../constants/pomodoro-status";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useLocalStorage } from "../../hooks/use-local-storage";
 import Modal from "../ui/Modal/Modal";
 import { useTask } from "../../context/task-context";
 import { TASK_STATUS_VALUE } from "../../constants/task-status";
-import useAudio from "../../hooks/useAudio";
+import useAudio from "../../hooks/use-audio";
 import clickSound from "../../assets/audio/click-sound/2e27afee-350b-4e6f-bcbb-920018b752b4.mp3";
 
 const Pomodoro = () => {
