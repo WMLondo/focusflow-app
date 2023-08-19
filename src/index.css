@@ -16,6 +16,15 @@
   --font-weight-700: 700;
 }
 
+[data-theme="dark"]{
+  --primary-color: #d04643;
+  --primary-color-100: #d55a57;
+  --primary-color-200: #da6e6c;
+  --secondary-color: #2c2c2c;
+  --secondary-color-100: #5a5a5a;
+  --neutral-color: #fff;
+}
+
 @import-normalize;
 
 * {
