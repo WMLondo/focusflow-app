@@ -8,13 +8,13 @@ export const POMODORO_STATUS = [
   {
     id: crypto.randomUUID(),
     title: "REST",
-    backgroundColor: "#b5ffe1",
+    backgroundColor: "var(--rest-color)",
     timeAmount: 1000 * 60 * 5,
   },
   {
     id: crypto.randomUUID(),
     title: "LONG REST",
-    backgroundColor: "#388697",
+    backgroundColor: "var(--long-rest-color)",
     timeAmount: 1000 * 60 * 15,
   },
 ];
