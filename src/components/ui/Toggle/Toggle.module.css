@@ -1,22 +1,31 @@
 .toggle {
-    position: absolute;
-    box-sizing: border-box;
     cursor: pointer;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    position: relative;
-    background-color: var(--secondary-color);
-    height: auto;
-    width: 53px;
-    padding: 2px;
+    background-color: var(--secondary-color-100);
+    width: 61px;
+    height: 30px;
+    padding: 4px;
     border-radius: 50px;
 }
 
+.toggle[data-isactive="true"] {
+    justify-content: flex-end;
+}
+
 .circle {
-    background-color: var(--neutral-color);
-    width: 24px;
-    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--secondary-color);
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
+}
+
+.emoji {
+    font-size: var(--font-size-m);
+    font-style: normal;
 }

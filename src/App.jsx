@@ -29,6 +29,9 @@ function App() {
   };
 
   useEffect(() => {
+    document.body.setAttribute("data-theme", theme);
+  }, [theme]);
+  useEffect(() => {
     updateBackground();
     const interval = setInterval(() => {
       updateBackground;
@@ -40,11 +43,10 @@ function App() {
   return (
     <TaskProvider>
       <Suspense fallback={<Loading />}>
-        <main className={classes.app} data-theme={theme}>
+        <main className={classes.app}>
           <BackgroundVideo video={background} />
           <div className={classes.centered}>
             <Toggle
-              orientation={{ left: "0", top: "0" }}
               click={toggleThemeHandler}
               initialValue={theme !== "light"}
             />

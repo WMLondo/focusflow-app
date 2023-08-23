@@ -14,7 +14,7 @@ import clickSound from "../../assets/audio/click-sound/2e27afee-350b-4e6f-bcbb-9
 import { formatTime } from "../../utils/format-time";
 
 const Pomodoro = () => {
-  const { getTask, changeTaskStatusHandler } = useTask();
+  const { getTask, changeStatus } = useTask();
   const audio = useAudio(clickSound);
   const [start, setStart] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -36,7 +36,7 @@ const Pomodoro = () => {
   };
 
   const closeTaskHandler = () => {
-    changeTaskStatusHandler(task, TASK_STATUS_VALUE.COMPLETE);
+    changeStatus(task, TASK_STATUS_VALUE.COMPLETE);
     setModalIsOpen(false);
   };
 

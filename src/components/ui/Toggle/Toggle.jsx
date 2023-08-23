@@ -2,31 +2,37 @@ import React, { useState } from "react";
 import classes from "./Toggle.module.css";
 import { motion } from "framer-motion";
 
+const spring = {
+  type: "spring",
+  stiffness: 700,
+  damping: 30,
+};
+
 const Toggle = (props) => {
   const { click, orientation, initialValue } = props;
   const [active, setActive] = useState(initialValue || false);
-
-  const variant = {
-    active: { translateX: "100%" },
-    unactive: { translateX: 0 },
-  };
 
   const toggleHandler = () => {
     setActive((prevState) => !prevState);
     click();
   };
   return (
-    <span
+    <div
       className={classes.toggle}
-      style={orientation}
+      data-isactive={active}
       onClick={toggleHandler}
     >
-      <motion.i
-        className={classes.circle}
-        animate={active ? "active" : "unactive"}
-        variants={variant}
-      ></motion.i>
-    </span>
+      <motion.i className={classes.circle} layout transition={spring}>
+        <span
+          className={classes.emoji}
+          role="img"
+          aria-label={active ? "dark-mode" : "light-mode"}
+          aria-hidden={false}
+        >
+          {active ? "🌙" : "☀️"}
+        </span>
+      </motion.i>
+    </div>
   );
 };
 
