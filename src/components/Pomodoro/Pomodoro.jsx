@@ -106,7 +106,7 @@ const Pomodoro = () => {
         </Modal.Header>
         <Modal.Result>{task && task.title}</Modal.Result>
         <Modal.Tag value={` ${task && formatTime(task.investedTime)} mins`}>
-          Curren Time Invested:
+          Current Time Invested:
         </Modal.Tag>
         <Modal.PrimaryButton click={closeTaskHandler}>YES</Modal.PrimaryButton>
         <Modal.SecondaryButton
