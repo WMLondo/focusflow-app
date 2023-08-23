@@ -7,11 +7,11 @@ import { motion } from "framer-motion";
 const dropIn = {
   hidden: {
     y: "-100vh",
-    opacity: "0",
+    opacity: 0,
   },
   visible: {
     y: "0",
-    opacity: "1",
+    opacity: 1,
     transition: {
       duration: 0.1,
       type: "spring",
@@ -21,7 +21,7 @@ const dropIn = {
   },
   exit: {
     y: "-100vh",
-    opacity: "0",
+    opacity: 0,
   },
 };
 
@@ -36,10 +36,10 @@ const Modal = (props) => {
       onClick={click}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      end={{ opacity: 0 }}
+      transition={{ duration: 1 }}
     >
       <motion.div
-        className={classes.container}
+        className={classes.modal}
         onClick={(e) => e.stopPropagation()}
         variants={dropIn}
         initial="hidden"
@@ -54,11 +54,24 @@ const Modal = (props) => {
 };
 
 Modal.Header = (props) => {
-  return <div className={classes.header}>{props.children}</div>;
+  return <header className={classes.header}>{props.children}</header>;
 };
 
 Modal.Title = (props) => {
   return <h2 className={classes.title}>{props.children}</h2>;
+};
+
+Modal.Result = (props) => {
+  return <span className={classes.result}>{props.children}</span>;
+};
+
+Modal.Tag = (props) => {
+  return (
+    <p className={classes.tag}>
+      {props.children}
+      <span>{props.value}</span>
+    </p>
+  );
 };
 
 Modal.Textarea = (props) => {
@@ -80,19 +93,31 @@ Modal.Textarea = (props) => {
   );
 };
 
-Modal.ConfirmationButton = (props) => {
+Modal.PrimaryButton = (props) => {
   return (
-    <button className={classes["confirmation-button"]} onClick={props.click}>
+    <motion.button
+      className={classes["primary-button"]}
+      onClick={props.click}
+      whileHover={{
+        scale: 1.03,
+      }}
+    >
       {props.children}
-    </button>
+    </motion.button>
   );
 };
 
-Modal.BackButton = (props) => {
+Modal.SecondaryButton = (props) => {
   return (
-    <button className={classes["back-button"]} onClick={props.click}>
+    <motion.button
+      className={classes["secondary-button"]}
+      onClick={props.click}
+      whileHover={{
+        scale: 1.03,
+      }}
+    >
       {props.children}
-    </button>
+    </motion.button>
   );
 };
 

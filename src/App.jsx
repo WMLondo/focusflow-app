@@ -8,7 +8,7 @@ import { Suspense, lazy, useEffect, useState } from "react";
 import Loading from "./components/ui/Loading/Loading";
 import BackgroundVideo from "./components/ui/BackgroundVideo/BackgroundVideo";
 import { useLocalStorage } from "./hooks/use-local-storage";
-import Toggle from "./components/Toggle/Toggle";
+import Toggle from "./components/ui/Toggle/Toggle";
 
 const Tasks = lazy(() => import("./components/Tasks/Tasks"));
 const Header = lazy(() => import("./components/Header/Header"));

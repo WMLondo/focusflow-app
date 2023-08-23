@@ -3,7 +3,7 @@ import classes from "./TaskMenu.module.css";
 import TaskButton from "../ui/TaskButton/TaskButton";
 import Button from "../ui/Button/Button";
 import { TASK_STATUS, TASK_STATUS_VALUE } from "../../constants/task-status";
-import TaskOption from "../ui/TaskOption/TaskOption";
+import DropDownElement from "../ui/DropDownElement/DropDownElement";
 import { useTask } from "../../context/task-context";
 import Modal from "../ui/Modal/Modal";
 
@@ -33,7 +33,7 @@ const TaskMenu = () => {
     setDropdown((prevState) => !prevState);
   };
   return (
-    <div className={classes.container}>
+    <section className={classes.container}>
       <div className={classes.navbar}>
         <TaskButton click={toggleDropdownHandler}>
           {TASK_STATUS.find((taskStatus) => taskStatus.value === filter).title}
@@ -45,7 +45,7 @@ const TaskMenu = () => {
         >
           {TASK_STATUS.map((status) => {
             return (
-              <TaskOption
+              <DropDownElement
                 click={() => {
                   changeFilterHandler(status.value);
                 }}
@@ -53,7 +53,7 @@ const TaskMenu = () => {
                 value={status.value}
               >
                 {status.title}
-              </TaskOption>
+              </DropDownElement>
             );
           })}
         </ul>
@@ -62,17 +62,16 @@ const TaskMenu = () => {
       <Modal click={closeHandler} open={isOpen} id={modalId}>
         <Modal.Header>
           <Modal.CloseButton click={closeHandler} />
+          <Modal.Title>What are you working on?</Modal.Title>
         </Modal.Header>
         <Modal.Textarea
-          placeholder="What are you working on?"
+          placeholder="Plant the seed of your focus here, watch it grow into a task."
           value={inputValue}
           change={handlerChange}
         ></Modal.Textarea>
-        <Modal.ConfirmationButton click={addHandler}>
-          ADD
-        </Modal.ConfirmationButton>
+        <Modal.PrimaryButton click={addHandler}>ADD</Modal.PrimaryButton>
       </Modal>
-    </div>
+    </section>
   );
 };
 

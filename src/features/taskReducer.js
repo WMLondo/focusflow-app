@@ -14,6 +14,11 @@ const taskReducer = (state, action) => {
         ...state,
         tasks: payload.tasks,
       };
+    case TASK_ACTIONS.UPDATE_TASK:
+      return {
+        ...state,
+        tasks: payload.tasks,
+      };
     case TASK_ACTIONS.CHANGE_STATUS:
       return {
         ...state,

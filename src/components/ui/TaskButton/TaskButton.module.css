@@ -1,6 +1,8 @@
 .button {
-    display: flex;
-    flex-direction: row;
+    display: inline-flex;
+    padding: 10px 0px;
+    justify-content: center;
+    align-items: center;
     gap: 4px;
     color: var(--secondary-color);
     font-size: var(--font-size-m);
@@ -8,12 +10,11 @@
     font-weight: var(--font-weight-700);
     line-height: normal;
     cursor: pointer;
-    justify-content: center;
-    align-items: center;
+    border-bottom: 4px solid var(--secondary-color);
 }
 
 .icon {
     fill: var(--secondary-color);
-    width: 12px;
-    height: 12px;
+    width: 24px;
+    height: 24px;
 }

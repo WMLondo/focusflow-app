@@ -6,21 +6,21 @@
     align-items: center;
     top: 0;
     left: 0;
-    width: 100%;
+    bottom: 0;
+    right: 0;
     z-index: 500;
-    height: 100vh;
 }
 
-.container {
+.modal {
     display: flex;
     flex-direction: column;
     position: relative;
     width: clamp(326px, 326px, 90%);
     padding: 16px;
-    border-radius: 12px;
-    background-color: var(--primary-color);
+    border-radius: 10px;
+    background-color: var(--secondary-color);
     z-index: 1000;
-    gap: 12px;
+    gap: 16px;
 }
 
 .header {
@@ -28,87 +28,107 @@
     flex-direction: row-reverse;
     justify-content: space-between;
     align-items: center;
+    gap: 17px;
 }
 
 .title {
-    width: 80%;
-    color: var(--secondary-color);
+    color: var(--neutral-color);
     font-size: var(--font-size-l);
-    font-weight: var(--font-weight-400);
+    font-weight: var(--font-weight-700);
     line-height: normal;
 }
 
 .textarea {
-    padding: 8px;
     width: 100%;
-    height: 172px;
-    border-radius: 5px;
-    background-color: var(--secondary-color);
+    height: 136px;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: var(--secondary-color-100);
     color: var(--neutral-color);
-    font-size: var(--font-size-l);
-    font-style: italic;
+    font-size: var(--font-size-m);
     font-weight: var(--font-weight-400);
     line-height: normal;
     resize: none;
     border: none;
-
-    &:focus {
-        outline: none;
-    }
 }
 
-.confirmation-button {
+.textarea:focus {
+    outline: none;
+}
+
+.result {
+    color: var(--neutral-color);
+    font-size: var(--font-size-m);
+    font-style: normal;
+    font-weight: var(--font-weight-400);
+    line-height: normal;
+}
+
+.tag {
+    color: var(--neutral-color);
+    font-size: var(--font-size-m);
+    font-style: normal;
+    font-weight: var(--font-weight-700);
+    line-height: normal;
+}
+
+.primary-button {
     cursor: pointer;
     width: 100%;
     padding: 12px 32px;
     text-align: center;
     border-radius: 5px;
-    color: var(--primary-color);
+    color: #FFFFFF;
     font-size: var(--font-size-m);
     font-weight: var(--font-weight-400);
-    background-color: var(--secondary-color);
+    background: linear-gradient(180deg, var(--primary-color-100) 0%, var(--primary-color) 100%);
+    box-shadow: 2px 2px 8px -2px var(--primary-color);
     border: none;
 }
 
-.confirmation-button:hover {
-    background-color: var(--secondary-color-100);
+.primary-button:hover {
+    box-shadow: 2px 2px 8px -2px var(--primary-color-100);
 }
 
-.back-button {
-    cursor: pointer;
+.primary-button:active {
+    background: linear-gradient(180deg, var(--primary-color) 0%, var(--primary-color-100) 100%);
+}
+
+.secondary-button {
     width: 100%;
-    border: 1px solid var(--secondary-color);
+    cursor: pointer;
     border-radius: 5px;
     padding: 12px 32px;
     text-align: center;
     font-size: var(--font-size-m);
     font-weight: var(--font-weight-400);
-    color: var(--secondary-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
     background-color: transparent;
 }
 
-.back-button:hover {
-    color: var(--primary-color-100);
-    background-color: var(--secondary-color);
+.secondary-button:hover {
+    color: #ffffff;
+    background: linear-gradient(180deg, var(--primary-color-100) 0%, var(--primary-color) 100%);
 }
 
-.back-button:active {
-    color: var(--primary-color);
-    background-color: var(--secondary-color);
+.secondary-button:active {
+    color: #ffffff;
+    background: linear-gradient(180deg, var(--primary-color) 0%, var(--primary-color-100) 100%);
 }
 
 .exit {
     cursor: pointer;
     width: clamp(32px, 32px, 44px);
     height: clamp(32px, 32px, 44px);
-    position: relative;
     align-self: flex-start;
-    font-size: var(--font-size-s);
-    fill: var(--secondary-color);
     border-radius: 5px;
-    background-color: var(--primary-color-100);
+    font-size: var(--font-size-l);
+    fill: var(--secondary-color);
+    background-color: var(--secondary-color-100);
+    flex-shrink: 0;
 }
 
 .exit:hover {
-    background-color: var(--primary-color-200);
+    background-color: var(--primary-color-100);
 }

@@ -11,6 +11,7 @@ import { useTask } from "../../context/task-context";
 import { TASK_STATUS_VALUE } from "../../constants/task-status";
 import useAudio from "../../hooks/use-audio";
 import clickSound from "../../assets/audio/click-sound/2e27afee-350b-4e6f-bcbb-920018b752b4.mp3";
+import { formatTime } from "../../utils/format-time";
 
 const Pomodoro = () => {
   const { getTask, changeTaskStatusHandler } = useTask();
@@ -28,6 +29,11 @@ const Pomodoro = () => {
   const task = getTask((currentTask) => {
     return currentTask.status === TASK_STATUS_VALUE.FOLLOW;
   });
+
+  const toggleTimerHandler = () => {
+    setStart((prevState) => !prevState);
+    audio.play();
+  };
 
   const closeTaskHandler = () => {
     changeTaskStatusHandler(task, TASK_STATUS_VALUE.COMPLETE);
@@ -66,6 +72,11 @@ const Pomodoro = () => {
   };
 
   useEffect(() => {
+    if (start) audio.play();
+    setStart(false);
+  }, [task]);
+
+  useEffect(() => {
     if (start) setIsStarted(true);
   }, [start]);
 
@@ -93,20 +104,22 @@ const Pomodoro = () => {
           />
           <Modal.Title>Did you complete this tasks?</Modal.Title>
         </Modal.Header>
-        <Modal.ConfirmationButton click={closeTaskHandler}>
-          YES
-        </Modal.ConfirmationButton>
-        <Modal.BackButton
+        <Modal.Result>{task && task.title}</Modal.Result>
+        <Modal.Tag value={` ${task && formatTime(task.investedTime)} mins`}>
+          Curren Time Invested:
+        </Modal.Tag>
+        <Modal.PrimaryButton click={closeTaskHandler}>YES</Modal.PrimaryButton>
+        <Modal.SecondaryButton
           click={() => {
             setModalIsOpen(false);
           }}
         >
           I'm Still Working
-        </Modal.BackButton>
+        </Modal.SecondaryButton>
       </Modal>
       {POMODORO_STATUS.slice(currentIndex, currentIndex + 1).map((status) => {
         return (
-          <div
+          <section
             className={classes.container}
             key={status.id}
             style={{
@@ -134,10 +147,7 @@ const Pomodoro = () => {
                 variant={{
                   backgroundColor: `${start ? "var(--primary-color-200)" : ""}`,
                 }}
-                click={() => {
-                  setStart((prevState) => !prevState);
-                  audio.play();
-                }}
+                click={toggleTimerHandler}
               >
                 {start ? "PAUSE" : "START"}
               </Button>
@@ -148,7 +158,7 @@ const Pomodoro = () => {
                 />
               )}
             </div>
-          </div>
+          </section>
         );
       })}
     </>

@@ -1,7 +1,8 @@
-import classes from "./Button.module.css";
+import React from "react";
+import classes from "./OutlineButton.module.css";
 import { motion } from "framer-motion";
 
-const Button = (props) => {
+const OutlineButton = (props) => {
   return (
     <motion.button
       className={classes.button}
@@ -16,4 +17,4 @@ const Button = (props) => {
   );
 };
 
-export default Button;
+export default OutlineButton;

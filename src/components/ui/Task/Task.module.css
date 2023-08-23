@@ -14,37 +14,21 @@
 
 .title {
     color: var(--neutral-color);
-    font-size: var(--font-size-l);
-    font-weight: var(--font-weight-700);
+    font-size: var(--font-size-m);
+    font-weight: var(--font-weight-400);
     line-height: normal;
     align-self: flex-start;
 }
 
 .action {
+    min-width: 156px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
     align-self: flex-end;
     height: 100%;
-}
-
-.follow-button {
-    padding: 8px 24px;
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-    border: none;
-    align-self: flex-end;
-    border-radius: 2px;
-    cursor: pointer;
-
-    &:hover {
-        background-color: var(--primary-color-100);
-    }
-
-    &:active {
-        background-color: var(--primary-color-200);
-    }
+    flex-shrink: 0;
 }
 
 .exit-button {
@@ -52,8 +36,8 @@
     position: relative;
     font-size: var(--font-size-l);
     cursor: pointer;
+}
 
-    &:hover {
-        fill: var(--primary-color-200);
-    }
+.exit-button:hover {
+    fill: var(--primary-color-100)
 }

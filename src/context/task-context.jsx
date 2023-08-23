@@ -3,7 +3,7 @@ import taskReducer, { initialState } from "../features/taskReducer";
 import { useReducer } from "react";
 import { useLocalStorage } from "../hooks/use-local-storage";
 import { TASK_ACTIONS } from "../constants/task-actions";
-import { TASK_STATUS_VALUE } from "../constants/task-status";
+import { TASK_STATUS, TASK_STATUS_VALUE } from "../constants/task-status";
 
 export const TaskContext = createContext(initialState);
 
@@ -29,8 +29,9 @@ export const TaskProvider = ({ children }) => {
       id: crypto.randomUUID(),
       title: taskValue,
       status: TASK_STATUS_VALUE.PENDING,
+      investedTime: 0,
     };
-    
+
     const updatedTasks = state.tasks.concat(newTask);
     dispatch({
       type: TASK_ACTIONS.ADD_TASK,
@@ -40,13 +41,13 @@ export const TaskProvider = ({ children }) => {
     });
   };
 
-  const changeTaskStatus = (task, newStatus) => {
+  const changeStatus = (task, status) => {
+    let followTaskIndex = state.tasks.findIndex(
+      (currentTask) => currentTask.status === TASK_STATUS_VALUE.FOLLOW
+    );
+
     let currentTasks = state.tasks;
-    if (
-      currentTasks.findIndex(
-        (currentTask) => currentTask.status === TASK_STATUS_VALUE.FOLLOW
-      ) >= 0
-    ) {
+    if (followTaskIndex >= 0) {
       currentTasks = state.tasks.map((currentTask) =>
         currentTask.status === TASK_STATUS_VALUE.FOLLOW
           ? { ...currentTask, status: TASK_STATUS_VALUE.PENDING }
@@ -54,16 +55,25 @@ export const TaskProvider = ({ children }) => {
       );
     }
 
-    const updatedTasks = currentTasks.map((currentTask) =>
+    let updatedTask = currentTasks.map((currentTask) =>
       currentTask.id === task.id
-        ? { ...currentTask, status: newStatus }
+        ? { ...currentTask, status: status }
         : currentTask
     );
     dispatch({
       type: TASK_ACTIONS.CHANGE_STATUS,
-      payload: {
-        tasks: updatedTasks,
-      },
+      payload: { tasks: updatedTask },
+    });
+  };
+
+  const updateTask = (task) => {
+    const updatedTasks = state.tasks.map((currentTask) =>
+      currentTask.id === task.id ? task : currentTask
+    );
+
+    dispatch({
+      type: TASK_ACTIONS.UPDATE_TASK,
+      payload: { tasks: updatedTasks },
     });
   };
 
@@ -96,9 +106,10 @@ export const TaskProvider = ({ children }) => {
     tasks: state.tasks,
     getTask: getTask,
     filter: state.filter,
+    changeStatus: changeStatus,
     changeFilterHandler: changeFilter,
     addTaskHandler: addTask,
-    changeTaskStatusHandler: changeTaskStatus,
+    updateTaskHandler: updateTask,
     removeTaskHandler: removeTask,
   };
 

@@ -1,6 +1,8 @@
 import React from "react";
 import classes from "./Task.module.css";
 import { IoClose } from "react-icons/io5";
+import Button from "../Button/Button";
+import OutlineButton from "../OutlineButton/OutlineButton";
 
 const Task = ({ children }) => {
   return <div className={classes.container}>{children}</div>;
@@ -15,15 +17,11 @@ Task.Action = ({ children }) => {
 };
 
 Task.FollowButton = (props) => {
-  const { children, click, variant } = props;
-  return (
-    <button
-      className={classes["follow-button"]}
-      onClick={click}
-      style={{ backgroundColor: variant ? variant : "" }}
-    >
-      {children}
-    </button>
+  const { children, click, status } = props;
+  return status ? (
+    <OutlineButton click={click}>{children}</OutlineButton>
+  ) : (
+    <Button click={click}>{children}</Button>
   );
 };
 

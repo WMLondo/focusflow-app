@@ -2,7 +2,7 @@
   "private": "true",
   "homepage": "https://wmlondo.github.io/focusflow-app",
   "name": "focusflow-app",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

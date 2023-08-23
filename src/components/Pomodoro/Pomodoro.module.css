@@ -19,8 +19,8 @@
 }
 
 .icon-button {
-    height: 42px;
-    width: 42px;
-    fill: var(--primary-color-200);
+    height: 40px;
+    width: 40px;
+    fill: var(--primary-color-100);
     cursor: pointer;
 }
