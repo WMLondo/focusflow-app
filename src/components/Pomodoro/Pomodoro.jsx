@@ -123,18 +123,20 @@ const Pomodoro = () => {
             className={classes.container}
             key={status.id}
             style={{
-              backgroundColor: status.backgroundColor,
               boxShadow: `${
                 start ? "0px 0px 10px 4px rgba(0, 0, 0, 0.25) inset" : ""
               }`,
             }}
           >
-            <StatusTitle>{status.title}</StatusTitle>
+            <StatusTitle variant={{ color: status.fontColor }}>
+              {status.title}
+            </StatusTitle>
             <Timer
               countdown={status.timeAmount}
               start={start}
               timerReset={restart}
               startNext={nextStatusHandler}
+              variant={{ color: status.fontColor }}
             />
             <div className={classes.action}>
               {isStarted && (

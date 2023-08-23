@@ -7,7 +7,7 @@ import { TASK_STATUS_VALUE } from "../../../constants/task-status";
 import { formatTime } from "../../../utils/format-time";
 
 const Timer = (props) => {
-  const { start, countdown, timerReset } = props;
+  const { start, countdown, timerReset, variant } = props;
   const { getTask, updateTaskHandler } = useTask();
   const [timer, setTimer] = useState(countdown);
   const audio = useAudio(countdownAudio);
@@ -47,7 +47,11 @@ const Timer = (props) => {
     setTimer(countdown);
   }, [timerReset, countdown]);
 
-  return <span className={classes.pomodoroClock}>{formatTime(timer)}</span>;
+  return (
+    <span className={classes.pomodoroClock} style={variant}>
+      {formatTime(timer)}
+    </span>
+  );
 };
 
 export default Timer;
