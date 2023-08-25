@@ -15,22 +15,26 @@ const Timer = (props) => {
   const [timer, setTimer] = useState(countdown);
   const audio = useAudio(countdownAudio);
 
-  let currentTask = null;
+  let currentTask =
+    getTask(
+      (followedTask) => followedTask.status === TASK_STATUS_VALUE.FOLLOW
+    ) || undefined;
   let titleFormatted = `${formatTime(timer)} | ${APP_TITLE.POMODORO}`;
 
   const updateInvertedTime = () => {
-    if (currentTask === null) return;
+    if (currentTask === undefined) return;
     currentTask.investedTime += 1000;
     updateTaskHandler(currentTask);
   };
 
   useEffect(() => {
-    if (countdown >= POMODORO_STATUS[0].timeAmount) {
-      currentTask = getTask(
-        (followedTask) => followedTask.status === TASK_STATUS_VALUE.FOLLOW
-      );
-    }
-  }, [currentTask]);
+    setTimer(countdown);
+    if (
+      countdown === POMODORO_STATUS[1].timeAmount ||
+      countdown === POMODORO_STATUS[2].timeAmount
+    )
+      titleFormatted = formatTime(timer) + "|" + APP_TITLE.REST;
+  }, [timerReset]);
 
   useEffect(() => {
     if (timer === 0) return props.startNext();
@@ -44,15 +48,6 @@ const Timer = (props) => {
     }, 1000);
     return () => clearInterval(intervalId);
   }, [timer, start]);
-
-  useEffect(() => {
-    setTimer(countdown);
-    if (
-      countdown >= POMODORO_STATUS[1].timeAmount ||
-      countdown >= POMODORO_STATUS[2].timeAmount
-    )
-      titleFormatted = formatTime(timer) + "|" + APP_TITLE.REST;
-  }, [timerReset, countdown]);
 
   return (
     <>
