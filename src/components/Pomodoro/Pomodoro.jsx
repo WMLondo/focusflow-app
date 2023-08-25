@@ -59,7 +59,9 @@ const Pomodoro = () => {
       case CLOCK_STAGE.POMODORO:
         increasePomodoroHandler();
         setCurrentStage(
-          pomodoro < POMODORO_CICLE ? CLOCK_STAGE.REST : CLOCK_STAGE.LONG_REST
+          pomodoro < POMODORO_CICLE - 1
+            ? CLOCK_STAGE.REST
+            : CLOCK_STAGE.LONG_REST
         );
         break;
       case CLOCK_STAGE.REST:
@@ -83,13 +85,13 @@ const Pomodoro = () => {
   }, [start]);
 
   useEffect(() => {
-    if (pomodoro === 1) {
+    if (pomodoro === 0) {
       restoreHandler();
       setCurrentStage(CLOCK_STAGE.POMODORO);
       return;
     }
 
-    if (pomodoro > POMODORO_CICLE) {
+    if (pomodoro >= POMODORO_CICLE) {
       task !== undefined && toggleModalHandler();
       return;
     }

@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 import useLocalStorage from "../hooks/use-local-storage";
 import { POMODORO_AMOUNT_INCREMENT } from "../constants/configuration";
 
-const initialState = 1;
+const initialState = 0;
 
 const PomodoroContext = createContext(initialState);
 

@@ -20,7 +20,7 @@ const Configuration = () => {
       <div className={classes["tag-container"]}>
         <p className={classes.tag}>Ongoing Pomodoro: </p>
         <CicleValue currentPomodoro={pomodoro} />
-        {pomodoro > 1 && (
+        {pomodoro > 0 && (
           <MdRestore className={classes.restore} onClick={resetPomodoro} />
         )}
       </div>
