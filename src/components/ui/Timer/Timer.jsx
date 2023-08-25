@@ -18,7 +18,6 @@ const Timer = (props) => {
     if (currentTask === undefined || Object.keys(currentTask).length === 0)
       return;
     currentTask.investedTime += 1000;
-    console.log(currentTask.investedTime);
     updateTaskHandler(currentTask);
   };
 

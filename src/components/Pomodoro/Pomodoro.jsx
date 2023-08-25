@@ -5,30 +5,33 @@ import classes from "./Pomodoro.module.css";
 import StatusTitle from "../ui/StatusTitle/StatusTitle";
 import { MdRestore, MdSkipNext } from "react-icons/md";
 import { POMODORO_STATUS } from "../../constants/pomodoro-status";
-import { useLocalStorage } from "../../hooks/use-local-storage";
 import Modal from "../ui/Modal/Modal";
 import { useTask } from "../../context/task-context";
 import { TASK_STATUS_VALUE } from "../../constants/task-status";
 import useAudio from "../../hooks/use-audio";
 import clickSound from "../../assets/audio/click-sound/2e27afee-350b-4e6f-bcbb-920018b752b4.mp3";
 import { formatTime } from "../../utils/format-time";
+import { usePomodoro } from "../../context/pomodoro-context";
+import { CLOCK_STAGE, POMODORO_CICLE } from "../../constants/configuration";
 
 const Pomodoro = () => {
-  const { getTask, changeStatus } = useTask();
   const audio = useAudio(clickSound);
+  const { getTask, changeStatus } = useTask();
+  const { pomodoro, resetPomodoro, increasePomodoroHandler } = usePomodoro();
   const [start, setStart] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [currentStage, setCurrentStage] = useState(CLOCK_STAGE.POMODORO);
   const [restart, setRestart] = useState(false);
-  const [isStarted, setIsStarted] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [pomodoroCycle, setPomodoroCycle] = useLocalStorage(
-    "persist:pomodoro",
-    0
-  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  let isStarted = start;
 
   const task = getTask((currentTask) => {
     return currentTask.status === TASK_STATUS_VALUE.FOLLOW;
   });
+
+  const toggleModalHandler = (value) => {
+    setIsModalOpen((prev) => value || !prev);
+  };
 
   const toggleTimerHandler = () => {
     setStart((prevState) => !prevState);
@@ -37,71 +40,64 @@ const Pomodoro = () => {
 
   const closeTaskHandler = () => {
     changeStatus(task, TASK_STATUS_VALUE.COMPLETE);
-    setModalIsOpen(false);
+    toggleModalHandler();
   };
 
   const cleanStartHandler = () => {
     setStart(false);
-    setIsStarted((prevState) => !prevState);
+    isStarted = start;
   };
 
-  const restoreStatusHandler = () => {
+  const restoreHandler = () => {
     cleanStartHandler();
-    setCurrentIndex((prevState) => prevState);
-    setRestart((prevState) => !prevState);
+    setRestart((prev) => !prev);
   };
 
   const nextStatusHandler = () => {
     cleanStartHandler();
-    if (currentIndex === POMODORO_STATUS.length - 1) {
-      setPomodoroCycle(0);
-      setCurrentIndex(0);
-      return;
-    }
-    setCurrentIndex((prevState) => prevState + 1);
-    switch (currentIndex) {
-      case 0:
-        setPomodoroCycle((prevState) => prevState + 1);
+    switch (currentStage) {
+      case CLOCK_STAGE.POMODORO:
+        increasePomodoroHandler();
+        setCurrentStage(
+          pomodoro < POMODORO_CICLE ? CLOCK_STAGE.REST : CLOCK_STAGE.LONG_REST
+        );
         break;
-      case 1:
-        setCurrentIndex(0);
+      case CLOCK_STAGE.REST:
+        setCurrentStage(CLOCK_STAGE.POMODORO);
         break;
       default:
-        break;
+        setCurrentStage(CLOCK_STAGE.POMODORO);
+        resetPomodoro();
     }
   };
 
   useEffect(() => {
     if (start) audio.play();
-    setStart(false);
+    setStart((prev) => !prev);
   }, [task]);
 
   useEffect(() => {
-    if (start) setIsStarted(true);
+    if (start) isStarted = start;
   }, [start]);
 
   useEffect(() => {
-    if (pomodoroCycle > 3) {
-      setCurrentIndex(POMODORO_STATUS.length - 1);
-      task !== undefined && setModalIsOpen(true);
+    if (pomodoro === 1) {
+      restoreHandler();
+      setCurrentStage(CLOCK_STAGE.POMODORO);
       return;
     }
-  }, [pomodoroCycle]);
+
+    if (pomodoro > POMODORO_CICLE) {
+      task !== undefined && toggleModalHandler();
+      return;
+    }
+  }, [pomodoro]);
 
   return (
     <>
-      <Modal
-        open={modalIsOpen}
-        click={() => {
-          setModalIsOpen(false);
-        }}
-      >
+      <Modal open={isModalOpen} click={() => toggleModalHandler(false)}>
         <Modal.Header>
-          <Modal.CloseButton
-            click={() => {
-              setModalIsOpen(false);
-            }}
-          />
+          <Modal.CloseButton click={() => toggleModalHandler(false)} />
           <Modal.Title>Did you complete this tasks?</Modal.Title>
         </Modal.Header>
         <Modal.Result>{task && task.title}</Modal.Result>
@@ -109,15 +105,11 @@ const Pomodoro = () => {
           Current Time Invested:
         </Modal.Tag>
         <Modal.PrimaryButton click={closeTaskHandler}>YES</Modal.PrimaryButton>
-        <Modal.SecondaryButton
-          click={() => {
-            setModalIsOpen(false);
-          }}
-        >
+        <Modal.SecondaryButton click={() => toggleModalHandler(false)}>
           I'm Still Working
         </Modal.SecondaryButton>
       </Modal>
-      {POMODORO_STATUS.slice(currentIndex, currentIndex + 1).map((status) => {
+      {POMODORO_STATUS.slice(currentStage, currentStage + 1).map((status) => {
         return (
           <section
             className={classes.container}
@@ -141,7 +133,7 @@ const Pomodoro = () => {
             <div className={classes.action}>
               {isStarted && (
                 <MdRestore
-                  onClick={restoreStatusHandler}
+                  onClick={restoreHandler}
                   className={classes["icon-button"]}
                 />
               )}

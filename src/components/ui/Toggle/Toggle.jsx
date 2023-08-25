@@ -9,7 +9,7 @@ const spring = {
 };
 
 const Toggle = (props) => {
-  const { click, orientation, initialValue } = props;
+  const { click, initialValue } = props;
   const [active, setActive] = useState(initialValue || false);
 
   const toggleHandler = () => {

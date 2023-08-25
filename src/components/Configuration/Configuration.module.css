@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.tag-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+}
+
+.tag {
+    color: var(--secondary-color);
+    font-size: var(--font-size-s);
+    font-style: normal;
+    font-weight: var(--font-weight-700);
+    line-height: normal;
+}
+
+.restore {
+    cursor: pointer;
+    fill: var(--secondary-color);
+    width: var(--font-size-l);
+    height: var(--font-size-l);
+}
+
+.restore:hover {
+    fill: var(--primary-color);
+}

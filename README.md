@@ -8,6 +8,7 @@ Esta es una aplicación de Pomodoro con manejador de tareas construida con React
 - Lista de tareas con capacidad para agregar, editar estado y eliminar tareas.
 - Seguimiento de tareas.
 - (Nuevo) El tiempo invertido en una tarea se muestra al final de cada ciclo.
+- (Nuevo) Seguimiento de Ciclo Actual
 
 ## Instalación
 
@@ -24,4 +25,5 @@ Esta es una aplicación de Pomodoro con manejador de tareas construida con React
 - React Icons: para iconos de la interfaz de usuario
 
 ## Nota
+
 **Esta rama es solamente para publicar la aplicación, para desarrollo se utiliza la branch `develop`**

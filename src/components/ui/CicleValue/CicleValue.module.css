@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 50px;
+    background-color: var(--primary-color-100);
+    gap: 4px;
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+    fill: var(--secondary-color);
+}
+
+[data-active="true"] {
+    fill: var(--primary-color);
+}
