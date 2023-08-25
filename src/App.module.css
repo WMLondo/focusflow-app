@@ -1,13 +1,16 @@
 .app {
   display: flex;
   justify-content: center;
+  height: 100vh;
+  padding-top: 85px;
+  padding-right: 32px;
+  padding-left: 32px;
+  padding-bottom: 0px;
 }
 
 .centered {
   display: flex;
-  width: clamp(640px, 640px, 90%);
+  width: clamp(640px, 640px, 100%);
   flex-direction: column;
   gap: 24px;
-  padding: 85px 32px;
-  min-height: 100vh;
 }
