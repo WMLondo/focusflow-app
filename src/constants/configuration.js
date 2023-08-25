@@ -10,3 +10,9 @@ export const CLOCK_STAGE = {
   REST: 1,
   LONG_REST: 2,
 };
+
+export const APP_TITLE = {
+  DEFAULT: "FocusFlow | Boost Your Productivity",
+  POMODORO: "Dive into Productivity",
+  REST: "Recharge and Reenergize"
+}

@@ -7,8 +7,9 @@ Esta es una aplicación de Pomodoro con manejador de tareas construida con React
 - Temporizador Pomodoro.
 - Lista de tareas con capacidad para agregar, editar estado y eliminar tareas.
 - Seguimiento de tareas.
-- (Nuevo) El tiempo invertido en una tarea se muestra al final de cada ciclo.
-- (Nuevo) Seguimiento de Ciclo Actual
+- El tiempo invertido en una tarea se muestra al final de cada ciclo.
+- Seguimiento de Ciclo Actual
+- (Nuevo) El reloj se representa en el titulo
 
 ## Instalación
 

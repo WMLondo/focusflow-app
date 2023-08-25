@@ -5,6 +5,9 @@ import countdownAudio from "../../../assets/audio/countdown/0fb2d523-9d92-4177-a
 import { useTask } from "../../../context/task-context";
 import { TASK_STATUS_VALUE } from "../../../constants/task-status";
 import { formatTime } from "../../../utils/format-time";
+import { Title } from "react-head";
+import { APP_TITLE } from "../../../constants/configuration";
+import { POMODORO_STATUS } from "../../../constants/pomodoro-status";
 
 const Timer = (props) => {
   const { start, countdown, timerReset, variant } = props;
@@ -12,17 +15,17 @@ const Timer = (props) => {
   const [timer, setTimer] = useState(countdown);
   const audio = useAudio(countdownAudio);
 
-  let currentTask = {};
+  let currentTask = null;
+  let titleFormatted = `${formatTime(timer)} | ${APP_TITLE.POMODORO}`;
 
   const updateInvertedTime = () => {
-    if (currentTask === undefined || Object.keys(currentTask).length === 0)
-      return;
+    if (currentTask === null) return;
     currentTask.investedTime += 1000;
     updateTaskHandler(currentTask);
   };
 
   useEffect(() => {
-    if (countdown >= 1000 * 60 * 25) {
+    if (countdown >= POMODORO_STATUS[0].timeAmount) {
       currentTask = getTask(
         (followedTask) => followedTask.status === TASK_STATUS_VALUE.FOLLOW
       );
@@ -44,12 +47,20 @@ const Timer = (props) => {
 
   useEffect(() => {
     setTimer(countdown);
+    if (
+      countdown >= POMODORO_STATUS[1].timeAmount ||
+      countdown >= POMODORO_STATUS[2].timeAmount
+    )
+      titleFormatted = formatTime(timer) + "|" + APP_TITLE.REST;
   }, [timerReset, countdown]);
 
   return (
-    <span className={classes.pomodoroClock} style={variant}>
-      {formatTime(timer)}
-    </span>
+    <>
+      <Title>{titleFormatted}</Title>
+      <span className={classes.pomodoroClock} style={variant}>
+        {formatTime(timer)}
+      </span>
+    </>
   );
 };
 

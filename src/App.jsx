@@ -7,6 +7,8 @@ import { Suspense, lazy, useEffect, useState } from "react";
 import Loading from "./components/ui/Loading/Loading";
 import BackgroundVideo from "./components/ui/BackgroundVideo/BackgroundVideo";
 import { useTheme } from "./context/theme-context";
+import { Title } from "react-head";
+import { APP_TITLE } from "./constants/configuration";
 
 const Tasks = lazy(() => import("./components/Tasks/Tasks"));
 const Header = lazy(() => import("./components/Header/Header"));
@@ -39,18 +41,21 @@ function App() {
   }, []);
 
   return (
-    <Suspense fallback={<Loading />}>
-      <main className={classes.app}>
-        <BackgroundVideo video={background} />
-        <div className={classes.centered}>
-          <Configuration />
-          <Header />
-          <Pomodoro />
-          <TaskMenu />
-          <Tasks />
-        </div>
-      </main>
-    </Suspense>
+    <>
+      <Title>{APP_TITLE.DEFAULT}</Title>
+      <Suspense fallback={<Loading />}>
+        <main className={classes.app}>
+          <BackgroundVideo video={background} />
+          <div className={classes.centered}>
+            <Configuration />
+            <Header />
+            <Pomodoro />
+            <TaskMenu />
+            <Tasks />
+          </div>
+        </main>
+      </Suspense>
+    </>
   );
 }
 
