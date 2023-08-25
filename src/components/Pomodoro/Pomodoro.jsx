@@ -72,8 +72,10 @@ const Pomodoro = () => {
   };
 
   useEffect(() => {
-    if (start) audio.play();
-    setStart((prev) => !prev);
+    if (start) {
+      audio.play();
+      setStart((prev) => !prev);
+    }
   }, [task]);
 
   useEffect(() => {
