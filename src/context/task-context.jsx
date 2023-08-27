@@ -20,7 +20,7 @@ export const TaskProvider = ({ children }) => {
   };
 
   const getTask = (condition) => {
-    return state.tasks.find((currentTask) => condition(currentTask));
+    return state.tasks.find((task) => condition(task));
   };
 
   const addTask = (taskValue) => {
@@ -66,6 +66,7 @@ export const TaskProvider = ({ children }) => {
   };
 
   const updateTask = (task) => {
+    console.log(task);
     const taskAmount = state.tasks.length;
     if (taskAmount < state.tasks) return;
     const updatedTasks = state.tasks.map((currentTask) =>

@@ -8,6 +8,7 @@ import { POMODORO_STATUS } from "../../../constants/pomodoro-status";
 import { useCountdown } from "../../../context/countdown-context";
 import countdownSound from "../.../../../../assets/audio/countdown/0fb2d523-9d92-4177-af4e-5260d6a42663.mp3";
 import useAudio from "../../../hooks/use-audio";
+import { TASK_STATUS_VALUE } from "../../../constants/task-status";
 
 const Timer = (props) => {
   const { start, time, variant, startNext } = props;
@@ -15,7 +16,9 @@ const Timer = (props) => {
   const { countdownValues, setTime } = useCountdown();
   const countdownAudio = useAudio(countdownSound);
 
-  const currentTask = getTask((task) => task.status === POMODORO_STATUS.FOLLOW);
+  const currentTask = getTask(
+    (task) => task.status === TASK_STATUS_VALUE.FOLLOW
+  );
 
   const updateInvertedTime = () => {
     if (currentTask === undefined) return;
@@ -34,7 +37,8 @@ const Timer = (props) => {
 
     const intervalId = setInterval(() => {
       setTime(time - 1000);
-      updateInvertedTime();
+      countdownValues.defaultTime === POMODORO_STATUS[0].timeAmount &&
+        updateInvertedTime();
       if (time !== POMODORO_STATUS[0].timeAmount)
         titleFormatted = formatTime(time) + "|" + APP_TITLE.REST;
     }, 1000);
