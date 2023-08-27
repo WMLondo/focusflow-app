@@ -2,14 +2,16 @@ import React, { useId, useState } from "react";
 import classes from "./TaskMenu.module.css";
 import TaskButton from "../ui/TaskButton/TaskButton";
 import Button from "../ui/Button/Button";
-import { TASK_STATUS, TASK_STATUS_VALUE } from "../../constants/task-status";
+import { TASK_STATUS } from "../../constants/task-status";
 import DropDownElement from "../ui/DropDownElement/DropDownElement";
 import { useTask } from "../../context/task-context";
 import Modal from "../ui/Modal/Modal";
+import { useCountdown } from "../../context/countdown-context";
 
 const TaskMenu = () => {
   const { addTaskHandler, filter, changeFilterHandler } = useTask();
   const [dropdown, setDropdown] = useState(false);
+  const { countdownValues, start, pause } = useCountdown();
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const modalId = useId();
@@ -17,9 +19,11 @@ const TaskMenu = () => {
   const closeHandler = () => {
     setInputValue("");
     setIsOpen(false);
+    countdownValues.isStarted && start({ widthAudio: false });
   };
   const openHandler = () => {
     setIsOpen(true);
+    countdownValues.isStarted && pause({ widthAudio: false });
   };
   const handlerChange = (e) => setInputValue(e.target.value);
 

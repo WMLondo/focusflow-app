@@ -10,7 +10,6 @@ export const TaskContext = createContext(initialState);
 export const TaskProvider = ({ children }) => {
   const [persistTasks, setPersistTasks] = useLocalStorage("persist:task", []);
   const [state, dispatch] = useReducer(taskReducer, initialState);
-
   const changeFilter = (filterValue) => {
     dispatch({
       type: TASK_ACTIONS.CHANGE_FILTER,

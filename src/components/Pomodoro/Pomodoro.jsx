@@ -8,22 +8,18 @@ import { POMODORO_STATUS } from "../../constants/pomodoro-status";
 import Modal from "../ui/Modal/Modal";
 import { useTask } from "../../context/task-context";
 import { TASK_STATUS_VALUE } from "../../constants/task-status";
-import useAudio from "../../hooks/use-audio";
-import clickSound from "../../assets/audio/click-sound/2e27afee-350b-4e6f-bcbb-920018b752b4.mp3";
 import { formatTime } from "../../utils/format-time";
 import { usePomodoro } from "../../context/pomodoro-context";
 import { CLOCK_STAGE, POMODORO_CICLE } from "../../constants/configuration";
+import { useCountdown } from "../../context/countdown-context";
 
 const Pomodoro = () => {
-  const audio = useAudio(clickSound);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentStage, setCurrentStage] = useState(CLOCK_STAGE.POMODORO);
   const { getTask, changeStatus } = useTask();
   const { pomodoro, resetPomodoro, increasePomodoroHandler } = usePomodoro();
-  const [start, setStart] = useState(false);
-  const [currentStage, setCurrentStage] = useState(CLOCK_STAGE.POMODORO);
-  const [restart, setRestart] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  let isStarted = start;
+  const { countdownValues, start, pause, restart, setInitialTime } =
+    useCountdown();
 
   const task = getTask((currentTask) => {
     return currentTask.status === TASK_STATUS_VALUE.FOLLOW;
@@ -33,28 +29,13 @@ const Pomodoro = () => {
     setIsModalOpen((prev) => value || !prev);
   };
 
-  const toggleTimerHandler = () => {
-    setStart((prevState) => !prevState);
-    audio.play();
-  };
-
   const closeTaskHandler = () => {
     changeStatus(task, TASK_STATUS_VALUE.COMPLETE);
     toggleModalHandler();
   };
 
-  const cleanStartHandler = () => {
-    setStart(false);
-    isStarted = start;
-  };
-
-  const restoreHandler = () => {
-    cleanStartHandler();
-    setRestart((prev) => !prev);
-  };
-
   const nextStatusHandler = () => {
-    cleanStartHandler();
+    pause({ withAudio: true });
     switch (currentStage) {
       case CLOCK_STAGE.POMODORO:
         increasePomodoroHandler();
@@ -74,19 +55,17 @@ const Pomodoro = () => {
   };
 
   useEffect(() => {
-    if (start) {
-      audio.play();
-      setStart((prev) => !prev);
+    setInitialTime(POMODORO_STATUS[currentStage].timeAmount);
+  }, [currentStage]);
+
+  useEffect(() => {
+    if (countdownValues.start) {
+      pause({ withAudio: true });
     }
   }, [task]);
 
   useEffect(() => {
-    if (start) isStarted = start;
-  }, [start]);
-
-  useEffect(() => {
     if (pomodoro === 0) {
-      restoreHandler();
       setCurrentStage(CLOCK_STAGE.POMODORO);
       return;
     }
@@ -128,16 +107,14 @@ const Pomodoro = () => {
               {status.title}
             </StatusTitle>
             <Timer
-              countdown={status.timeAmount}
-              start={start}
-              timerReset={restart}
               startNext={nextStatusHandler}
               variant={{ color: status.fontColor }}
+              {...countdownValues}
             />
             <div className={classes.action}>
-              {isStarted && (
+              {countdownValues.isStarted && (
                 <MdRestore
-                  onClick={restoreHandler}
+                  onClick={restart}
                   className={classes["icon-button"]}
                 />
               )}
@@ -145,11 +122,15 @@ const Pomodoro = () => {
                 variant={{
                   backgroundColor: `${start ? "var(--primary-color-200)" : ""}`,
                 }}
-                click={toggleTimerHandler}
+                click={() => {
+                  countdownValues.start
+                    ? pause({ withAudio: true })
+                    : start({ withAudio: true });
+                }}
               >
-                {start ? "PAUSE" : "START"}
+                {countdownValues.start ? "PAUSE" : "START"}
               </Button>
-              {isStarted && (
+              {countdownValues.isStarted && (
                 <MdSkipNext
                   onClick={nextStatusHandler}
                   className={classes["icon-button"]}
