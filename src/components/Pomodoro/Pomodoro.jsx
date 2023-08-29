@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Timer from "../ui/Timer/Timer";
 import Button from "../ui/Button/Button";
 import classes from "./Pomodoro.module.css";
@@ -20,10 +20,15 @@ const Pomodoro = () => {
   const { pomodoro, resetPomodoro, increasePomodoroHandler } = usePomodoro();
   const { countdownValues, start, pause, restart, setInitialTime } =
     useCountdown();
+  const { started, isStarted } = countdownValues;
 
   const task = getTask((currentTask) => {
     return currentTask.status === TASK_STATUS_VALUE.FOLLOW;
   });
+
+  const toggleButtonHandler = () => {
+    started ? pause({ withAudio: true }) : start({ withAudio: true });
+  };
 
   const toggleModalHandler = (value) => {
     setIsModalOpen((prev) => value || !prev);
@@ -59,9 +64,9 @@ const Pomodoro = () => {
   }, [currentStage]);
 
   useEffect(() => {
-    if (countdownValues.start) {
-      pause({ withAudio: true });
-    }
+    // if (started) {
+    //   pause({ withAudio: true });
+    // }
   }, [task]);
 
   useEffect(() => {
@@ -75,6 +80,14 @@ const Pomodoro = () => {
       return;
     }
   }, [pomodoro]);
+
+  const shadowEffect = {
+    boxShadow: `${start ? "0px 0px 10px 4px rgba(0, 0, 0, 0.25) inset" : ""}`,
+  };
+
+  const backgroundEffect = {
+    backgroundColor: `${started ? "var(--primary-color-200)" : ""}`,
+  };
 
   return (
     <>
@@ -97,11 +110,7 @@ const Pomodoro = () => {
           <section
             className={classes.container}
             key={status.id}
-            style={{
-              boxShadow: `${
-                start ? "0px 0px 10px 4px rgba(0, 0, 0, 0.25) inset" : ""
-              }`,
-            }}
+            style={shadowEffect}
           >
             <StatusTitle variant={{ color: status.fontColor }}>
               {status.title}
@@ -112,25 +121,16 @@ const Pomodoro = () => {
               {...countdownValues}
             />
             <div className={classes.action}>
-              {countdownValues.isStarted && (
+              {isStarted && (
                 <MdRestore
                   onClick={restart}
                   className={classes["icon-button"]}
                 />
               )}
-              <Button
-                variant={{
-                  backgroundColor: `${start ? "var(--primary-color-200)" : ""}`,
-                }}
-                click={() => {
-                  countdownValues.start
-                    ? pause({ withAudio: true })
-                    : start({ withAudio: true });
-                }}
-              >
-                {countdownValues.start ? "PAUSE" : "START"}
+              <Button variant={backgroundEffect} click={toggleButtonHandler}>
+                {started ? "PAUSE" : "START"}
               </Button>
-              {countdownValues.isStarted && (
+              {isStarted && (
                 <MdSkipNext
                   onClick={nextStatusHandler}
                   className={classes["icon-button"]}

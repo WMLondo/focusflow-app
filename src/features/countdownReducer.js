@@ -1,7 +1,7 @@
 import { COUNTDOWN_ACTIONS } from "../constants/countdown-actions";
 
 export const initialState = {
-  start: false,
+  started: false,
   time: 0,
   defaultTime: 0,
   isStarted: false,

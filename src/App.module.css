@@ -8,9 +8,3 @@
   padding-bottom: 0px;
 }
 
-.centered {
-  display: flex;
-  width: clamp(640px, 640px, 100%);
-  flex-direction: column;
-  gap: 24px;
-}

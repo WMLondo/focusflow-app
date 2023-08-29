@@ -23,7 +23,7 @@ const TaskMenu = () => {
   };
   const openHandler = () => {
     setIsOpen(true);
-    countdownValues.isStarted && pause({ widthAudio: false });
+    countdownValues.started && pause({ widthAudio: false });
   };
   const handlerChange = (e) => setInputValue(e.target.value);
 

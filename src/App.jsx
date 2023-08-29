@@ -1,44 +1,38 @@
+import { Suspense, useCallback, useEffect, useState } from "react";
+import { Title } from "react-head";
 import classes from "./App.module.css";
-import Pomodoro from "./components/Pomodoro/Pomodoro";
-import TaskMenu from "./components/TaskMenu/TaskMenu";
 import bgVideoNight from "./assets/image/bg/44d8cc48-4db8-4be5-8530-ec86dfe871bf.webm";
 import bgVideoDay from "./assets/image/bg/8a4d521f-4b34-41b0-a1cb-7f30984f033d.webm";
-import { Suspense, lazy, useEffect, useState } from "react";
-import Loading from "./components/ui/Loading/Loading";
+import Content from "./components/Content/Content";
 import BackgroundVideo from "./components/ui/BackgroundVideo/BackgroundVideo";
-import { useTheme } from "./context/theme-context";
-import { Title } from "react-head";
+import Loading from "./components/ui/Loading/Loading";
 import { APP_TITLE } from "./constants/configuration";
-
-const Tasks = lazy(() => import("./components/Tasks/Tasks"));
-const Header = lazy(() => import("./components/Header/Header"));
-const Configuration = lazy(() =>
-  import("./components/Configuration/Configuration")
-);
+import { useTheme } from "./context/theme-context";
 
 function App() {
   const [background, setBackground] = useState(bgVideoDay);
   const { theme } = useTheme();
 
-  const updateBackground = () => {
+  const updateBackground = useCallback(() => {
     const hours = new Date().getHours();
     if (hours >= 6 && hours <= 18) setBackground(bgVideoDay);
     else setBackground(bgVideoNight);
-  };
+  }, [background]);
 
   useEffect(() => {
     document.body.setAttribute("data-theme", theme);
-    return () => document.body.removeAttribute("data-theme");
-  }, [theme]);
-
-  useEffect(() => {
     updateBackground();
     const interval = setInterval(() => {
-      updateBackground;
-    }, 1000 * 60 * 60);
+      updateBackground();
+    }, 1000 * 60);
 
-    return () => clearInterval(interval);
-  }, []);
+    updateBackground();
+
+    return () => {
+      clearInterval(interval);
+      document.body.removeAttribute("data-theme");
+    };
+  }, [theme]);
 
   return (
     <>
@@ -46,13 +40,7 @@ function App() {
       <Suspense fallback={<Loading />}>
         <main className={classes.app}>
           <BackgroundVideo video={background} />
-          <div className={classes.centered}>
-            <Configuration />
-            <Header />
-            <Pomodoro />
-            <TaskMenu />
-            <Tasks />
-          </div>
+          <Content />
         </main>
       </Suspense>
     </>

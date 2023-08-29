@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
-import useLocalStorage from "../hooks/use-local-storage";
 import { POMODORO_AMOUNT_INCREMENT } from "../constants/configuration";
+import useLocalStorage from "../hooks/use-local-storage";
 
 const initialState = 0;
 

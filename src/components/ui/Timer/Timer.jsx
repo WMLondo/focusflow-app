@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
-import classes from "./Timer.module.css";
-import { useTask } from "../../../context/task-context";
-import { formatTime } from "../../../utils/format-time";
+import React, { memo, useEffect } from "react";
 import { Title } from "react-head";
+import countdownSound from "../.../../../../assets/audio/countdown/0fb2d523-9d92-4177-af4e-5260d6a42663.mp3";
 import { APP_TITLE } from "../../../constants/configuration";
 import { POMODORO_STATUS } from "../../../constants/pomodoro-status";
-import { useCountdown } from "../../../context/countdown-context";
-import countdownSound from "../.../../../../assets/audio/countdown/0fb2d523-9d92-4177-af4e-5260d6a42663.mp3";
-import useAudio from "../../../hooks/use-audio";
 import { TASK_STATUS_VALUE } from "../../../constants/task-status";
+import { useCountdown } from "../../../context/countdown-context";
+import { useTask } from "../../../context/task-context";
+import useAudio from "../../../hooks/use-audio";
+import { formatTime } from "../../../utils/format-time";
+import classes from "./Timer.module.css";
 
 const Timer = (props) => {
-  const { start, time, variant, startNext } = props;
+  const { started, time, variant, startNext } = props;
   const { getTask, updateTaskHandler } = useTask();
   const { countdownValues, setTime } = useCountdown();
   const countdownAudio = useAudio(countdownSound);
@@ -29,7 +29,7 @@ const Timer = (props) => {
   let titleFormatted = `${formatTime(time)} | ${APP_TITLE.POMODORO}`;
 
   useEffect(() => {
-    if (!start) return;
+    if (!started) return;
 
     if (time === 0 && countdownValues.isStarted) return startNext();
 
@@ -43,7 +43,7 @@ const Timer = (props) => {
         titleFormatted = formatTime(time) + "|" + APP_TITLE.REST;
     }, 1000);
     return () => clearInterval(intervalId);
-  }, [time, start]);
+  }, [time, started]);
 
   return (
     <>
@@ -55,4 +55,4 @@ const Timer = (props) => {
   );
 };
 
-export default Timer;
+export default memo(Timer);

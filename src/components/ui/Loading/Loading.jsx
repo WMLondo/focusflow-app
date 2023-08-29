@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import classes from "./Loading.module.css";
 
 const Loading = () => {
@@ -16,4 +16,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default memo(Loading);

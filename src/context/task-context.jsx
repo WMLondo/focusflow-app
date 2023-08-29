@@ -1,15 +1,28 @@
-import { createContext, useContext, useEffect } from "react";
-import taskReducer, { initialState } from "../features/taskReducer";
-import { useReducer } from "react";
-import useLocalStorage from "../hooks/use-local-storage";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 import { TASK_ACTIONS } from "../constants/task-actions";
 import { TASK_STATUS_VALUE } from "../constants/task-status";
+import taskReducer, { initialState } from "../features/taskReducer";
+import useLocalStorage from "../hooks/use-local-storage";
 
 export const TaskContext = createContext(initialState);
 
 export const TaskProvider = ({ children }) => {
   const [persistTasks, setPersistTasks] = useLocalStorage("persist:task", []);
   const [state, dispatch] = useReducer(taskReducer, initialState);
+
+  const initializeTask = useCallback(() => {
+    dispatch({
+      type: TASK_ACTIONS.SET_TASK_FROM_MEMORY,
+      payload: { ...state, tasks: persistTasks },
+    });
+  }, [persistTasks]);
+
   const changeFilter = (filterValue) => {
     dispatch({
       type: TASK_ACTIONS.CHANGE_FILTER,
@@ -41,12 +54,13 @@ export const TaskProvider = ({ children }) => {
   };
 
   const changeStatus = (task, status) => {
-    let followTaskIndex = state.tasks.findIndex(
-      (currentTask) => currentTask.status === TASK_STATUS_VALUE.FOLLOW
+    let followTask = getTask(
+      (task) => task.status === TASK_STATUS_VALUE.FOLLOW
     );
 
     let currentTasks = state.tasks;
-    if (followTaskIndex >= 0) {
+
+    if (followTask !== undefined) {
       currentTasks = state.tasks.map((currentTask) =>
         currentTask.status === TASK_STATUS_VALUE.FOLLOW
           ? { ...currentTask, status: TASK_STATUS_VALUE.PENDING }
@@ -66,9 +80,6 @@ export const TaskProvider = ({ children }) => {
   };
 
   const updateTask = (task) => {
-    console.log(task);
-    const taskAmount = state.tasks.length;
-    if (taskAmount < state.tasks) return;
     const updatedTasks = state.tasks.map((currentTask) =>
       currentTask.id === task.id ? task : currentTask
     );
@@ -92,15 +103,10 @@ export const TaskProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (persistTasks && state === initialState) {
-      dispatch({
-        type: TASK_ACTIONS.SET_TASK_FROM_MEMORY,
-        payload: {
-          tasks: persistTasks,
-        },
-      });
-      return;
-    }
+    initializeTask();
+  }, []);
+
+  useEffect(() => {
     setPersistTasks(state.tasks);
   }, [state.tasks]);
 
