@@ -9,8 +9,8 @@ const WatchClock = () => {
       new Date().toLocaleTimeString("en-US", {
         hour12: true,
         hour: "2-digit",
-        minute: "numeric",
-        second: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
       })
     );
     const interval = setInterval(() => {
@@ -18,8 +18,8 @@ const WatchClock = () => {
         new Date().toLocaleTimeString("en-US", {
           hour12: true,
           hour: "2-digit",
-          minute: "numeric",
-          second: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
         })
       );
     }, 1000);
