@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import classes from "./WatchClock.module.css";
+import useDocumentVisibility from "../../../hooks/use-document-visibility";
 
 const WatchClock = () => {
   const [currentTime, setCurrentTime] = useState("");
+  const isVisible = useDocumentVisibility();
 
   useEffect(() => {
     setCurrentTime(
@@ -13,6 +15,9 @@ const WatchClock = () => {
         second: "2-digit",
       })
     );
+
+    if (!isVisible) return;
+
     const interval = setInterval(() => {
       setCurrentTime(
         new Date().toLocaleTimeString("en-US", {
@@ -24,7 +29,7 @@ const WatchClock = () => {
       );
     }, 1000);
     return () => clearInterval(interval);
-  }, [currentTime]);
+  }, [isVisible, currentTime]);
   return <span className={classes.clock}>{currentTime}</span>;
 };
 

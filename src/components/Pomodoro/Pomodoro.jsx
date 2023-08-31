@@ -64,12 +64,6 @@ const Pomodoro = () => {
   }, [currentStage]);
 
   useEffect(() => {
-    // if (started) {
-    //   pause({ withAudio: true });
-    // }
-  }, [task]);
-
-  useEffect(() => {
     if (pomodoro === 0) {
       setCurrentStage(CLOCK_STAGE.POMODORO);
       return;
