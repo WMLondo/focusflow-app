@@ -15,7 +15,7 @@ const Timer = (props) => {
   const { started, time, defaultTime, variant, startNext } = props;
   const { getTask, updateTaskHandler } = useTask();
   const countdownAudio = useAudio(countdownSound);
-  const { setTime } = useCountdown();
+  const { countdownValues, setTime } = useCountdown();
   const currentTask = getTask(
     (task) => task.status === TASK_STATUS_VALUE.FOLLOW
   );
