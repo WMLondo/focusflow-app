@@ -1,7 +1,7 @@
 import React from "react";
 import AppTitle from "../ui/AppTitle/AppTitle";
-import classes from "./Header.module.css";
 import WatchClock from "../ui/WatchClock/WatchClock";
+import classes from "./Header.module.css";
 
 const Header = () => {
   return (

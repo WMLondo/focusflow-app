@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import Timer from "../ui/Timer/Timer";
-import Button from "../ui/Button/Button";
-import classes from "./Pomodoro.module.css";
-import StatusTitle from "../ui/StatusTitle/StatusTitle";
+import React, { useEffect, useState } from "react";
 import { MdRestore, MdSkipNext } from "react-icons/md";
-import { POMODORO_STATUS } from "../../constants/pomodoro-status";
-import Modal from "../ui/Modal/Modal";
-import { useTask } from "../../context/task-context";
-import { TASK_STATUS_VALUE } from "../../constants/task-status";
-import { formatTime } from "../../utils/format-time";
-import { usePomodoro } from "../../context/pomodoro-context";
 import { CLOCK_STAGE, POMODORO_CICLE } from "../../constants/configuration";
+import { POMODORO_STATUS } from "../../constants/pomodoro-status";
+import { TASK_STATUS_VALUE } from "../../constants/task-status";
 import { useCountdown } from "../../context/countdown-context";
+import { usePomodoro } from "../../context/pomodoro-context";
+import { useTask } from "../../context/task-context";
+import { formatTime } from "../../utils/format-time";
+import Button from "../ui/Button/Button";
+import Modal from "../ui/Modal/Modal";
+import StatusTitle from "../ui/StatusTitle/StatusTitle";
+import Timer from "../ui/Timer/Timer";
+import classes from "./Pomodoro.module.css";
 
 const Pomodoro = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

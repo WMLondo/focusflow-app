@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { usePageVisibility } from "../../../hooks/use-page-visibility";
 import classes from "./WatchClock.module.css";
-import useDocumentVisibility from "../../../hooks/use-document-visibility";
 
 const WatchClock = () => {
   const [currentTime, setCurrentTime] = useState("");
-  const isVisible = useDocumentVisibility();
+  const isVisible = usePageVisibility();
 
   useEffect(() => {
     setCurrentTime(
@@ -29,7 +29,7 @@ const WatchClock = () => {
       );
     }, 1000);
     return () => clearInterval(interval);
-  }, [isVisible, currentTime]);
+  }, [currentTime]);
   return <span className={classes.clock}>{currentTime}</span>;
 };
 

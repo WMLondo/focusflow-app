@@ -64,7 +64,10 @@ export const CountdownProvider = ({ children }) => {
     (timeValue) => {
       dispatch({
         type: COUNTDOWN_ACTIONS.SET_TIME,
-        payload: { ...state, time: timeValue },
+        payload: {
+          ...state,
+          time: timeValue,
+        },
       });
     },
     [state]

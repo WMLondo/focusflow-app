@@ -1,15 +1,15 @@
 import React, { useId, useState } from "react";
-import classes from "./TaskMenu.module.css";
-import TaskButton from "../ui/TaskButton/TaskButton";
-import Button from "../ui/Button/Button";
 import { TASK_STATUS } from "../../constants/task-status";
-import DropDownElement from "../ui/DropDownElement/DropDownElement";
-import { useTask } from "../../context/task-context";
-import Modal from "../ui/Modal/Modal";
 import { useCountdown } from "../../context/countdown-context";
+import { useTask } from "../../context/task-context";
+import Button from "../ui/Button/Button";
+import DropDownElement from "../ui/DropDownElement/DropDownElement";
+import Modal from "../ui/Modal/Modal";
+import TaskButton from "../ui/TaskButton/TaskButton";
+import classes from "./TaskMenu.module.css";
 
 const TaskMenu = () => {
-  const { addTaskHandler, filter, changeFilterHandler } = useTask();
+  const { addTaskHandler, filter, changeFilter } = useTask();
   const [dropdown, setDropdown] = useState(false);
   const { countdownValues, start, pause } = useCountdown();
   const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +51,7 @@ const TaskMenu = () => {
             return (
               <DropDownElement
                 click={() => {
-                  changeFilterHandler(status.value);
+                  changeFilter(status.value);
                 }}
                 key={status.id}
                 value={status.value}

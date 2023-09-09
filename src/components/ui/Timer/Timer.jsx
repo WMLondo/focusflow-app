@@ -8,14 +8,17 @@ import { useCountdown } from "../../../context/countdown-context";
 import { useTask } from "../../../context/task-context";
 import useAudio from "../../../hooks/use-audio";
 import { formatTime } from "../../../utils/format-time";
+import {
+  clearWorkerInterval,
+  setWorkerInterval,
+} from "../../../utils/worker-timer";
 import classes from "./Timer.module.css";
 
 const Timer = (props) => {
-  const { started, time, variant, startNext } = props;
+  const { started, time, defaultTime, variant, startNext } = props;
   const { getTask, updateTaskHandler } = useTask();
-  const { countdownValues, setTime } = useCountdown();
   const countdownAudio = useAudio(countdownSound);
-
+  const { setTime } = useCountdown();
   const currentTask = getTask(
     (task) => task.status === TASK_STATUS_VALUE.FOLLOW
   );
@@ -26,8 +29,6 @@ const Timer = (props) => {
     updateTaskHandler(currentTask);
   };
 
-  let titleFormatted = `${formatTime(time)} | ${APP_TITLE.POMODORO}`;
-
   useEffect(() => {
     if (!started) return;
 
@@ -35,15 +36,17 @@ const Timer = (props) => {
 
     if (time === 1000 * 5) countdownAudio.play();
 
-    const intervalId = setInterval(() => {
+    const intervalId = setWorkerInterval(() => {
       setTime(time - 1000);
-      countdownValues.defaultTime === POMODORO_STATUS[0].timeAmount &&
-        updateInvertedTime();
-      if (time !== POMODORO_STATUS[0].timeAmount)
-        titleFormatted = formatTime(time) + "|" + APP_TITLE.REST;
+      defaultTime === POMODORO_STATUS[0].timeAmount && updateInvertedTime();
     }, 1000);
-    return () => clearInterval(intervalId);
+    return () => clearWorkerInterval(intervalId);
   }, [time, started]);
+
+  let titleFormatted = `${formatTime(time)} | ${APP_TITLE.POMODORO}`;
+
+  if (defaultTime !== POMODORO_STATUS[0].timeAmount)
+    titleFormatted = formatTime(time) + " | " + APP_TITLE.REST;
 
   return (
     <>

@@ -1,9 +1,8 @@
 import {
   createContext,
-  useCallback,
   useContext,
   useEffect,
-  useReducer,
+  useReducer
 } from "react";
 import { TASK_ACTIONS } from "../constants/task-actions";
 import { TASK_STATUS_VALUE } from "../constants/task-status";
@@ -16,12 +15,12 @@ export const TaskProvider = ({ children }) => {
   const [persistTasks, setPersistTasks] = useLocalStorage("persist:task", []);
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
-  const initializeTask = useCallback(() => {
+  const initializeTask = () => {
     dispatch({
       type: TASK_ACTIONS.SET_TASK_FROM_MEMORY,
       payload: { ...state, tasks: persistTasks },
     });
-  }, [persistTasks]);
+  };
 
   const changeFilter = (filterValue) => {
     dispatch({
@@ -73,6 +72,7 @@ export const TaskProvider = ({ children }) => {
         ? { ...currentTask, status: status }
         : currentTask
     );
+
     dispatch({
       type: TASK_ACTIONS.CHANGE_STATUS,
       payload: { tasks: updatedTask },
@@ -107,18 +107,21 @@ export const TaskProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    setPersistTasks(state.tasks);
+    if (JSON.stringify(persistTasks) !== JSON.stringify(state.tasks)) {
+      setPersistTasks(state.tasks);
+    }
   }, [state.tasks]);
 
   const value = {
     tasks: state.tasks,
-    getTask: getTask,
     filter: state.filter,
-    changeStatus: changeStatus,
-    changeFilterHandler: changeFilter,
     addTaskHandler: addTask,
     updateTaskHandler: updateTask,
     removeTaskHandler: removeTask,
+    initializeTask,
+    getTask,
+    changeStatus,
+    changeFilter,
   };
 
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;
