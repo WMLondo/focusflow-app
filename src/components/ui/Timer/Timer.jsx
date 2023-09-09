@@ -1,5 +1,6 @@
 import React, { memo, useEffect } from "react";
 import { Title } from "react-head";
+import { clearInterval, setInterval } from "worker-timers";
 import countdownSound from "../.../../../../assets/audio/countdown/0fb2d523-9d92-4177-af4e-5260d6a42663.mp3";
 import { APP_TITLE } from "../../../constants/configuration";
 import { POMODORO_STATUS } from "../../../constants/pomodoro-status";
@@ -8,10 +9,6 @@ import { useCountdown } from "../../../context/countdown-context";
 import { useTask } from "../../../context/task-context";
 import useAudio from "../../../hooks/use-audio";
 import { formatTime } from "../../../utils/format-time";
-import {
-  clearWorkerInterval,
-  setWorkerInterval,
-} from "../../../utils/worker-timer";
 import classes from "./Timer.module.css";
 
 const Timer = (props) => {
@@ -36,11 +33,11 @@ const Timer = (props) => {
 
     if (time === 1000 * 5) countdownAudio.play();
 
-    const intervalId = setWorkerInterval(() => {
+    const intervalId = setInterval(() => {
       setTime(time - 1000);
       defaultTime === POMODORO_STATUS[0].timeAmount && updateInvertedTime();
     }, 1000);
-    return () => clearWorkerInterval(intervalId);
+    return () => clearInterval(intervalId);
   }, [time, started]);
 
   let titleFormatted = `${formatTime(time)} | ${APP_TITLE.POMODORO}`;
