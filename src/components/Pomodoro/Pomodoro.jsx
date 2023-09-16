@@ -3,8 +3,8 @@ import { MdRestore, MdSkipNext } from "react-icons/md";
 import { CLOCK_STAGE, POMODORO_CICLE } from "../../constants/configuration";
 import { POMODORO_STATUS } from "../../constants/pomodoro-status";
 import { TASK_STATUS_VALUE } from "../../constants/task-status";
-import { useCountdown } from "../../store/countdown-context";
- import { usePomodoro } from "../../store/pomodoro-context";
+
+import { usePomodoro } from "../../store/pomodoro-context";
 import { usePomodoro as useTask } from "../../store/pomodoro";
 import { formatTime } from "../../utils/format-time";
 import Button from "../ui/Button/Button";
@@ -12,25 +12,41 @@ import Modal from "../ui/Modal/Modal";
 import StatusTitle from "../ui/StatusTitle/StatusTitle";
 import Timer from "../ui/Timer/Timer";
 import classes from "./Pomodoro.module.css";
+import useAudio from "../../hooks/use-audio";
+import clickSound from "../../assets/audio/click-sound/2e27afee-350b-4e6f-bcbb-920018b752b4.mp3";
 
 const Pomodoro = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const clickSoundRef = useAudio(clickSound);
   const [currentStage, setCurrentStage] = useState(CLOCK_STAGE.POMODORO);
-  const { getTask, updateTask } = useTask((state) => ({
+  const {
+    getTask,
+    updateTask,
+    started,
+    isStarted,
+    start,
+    pause,
+    restart,
+    setInitialTime,
+  } = useTask((state) => ({
     getTask: state.getTask,
     updateTask: state.updateTask,
+    started: state.started,
+    isStarted: state.isStarted,
+    start: state.start,
+    pause: state.pause,
+    restart: state.restart,
+    setInitialTime: state.setInitialTime,
   }));
   const { pomodoro, resetPomodoro, increasePomodoroHandler } = usePomodoro();
-  const { countdownValues, start, pause, restart, setInitialTime } =
-    useCountdown();
-  const { started, isStarted } = countdownValues;
 
   const task = getTask((currentTask) => {
     return currentTask.status === TASK_STATUS_VALUE.FOLLOW;
   });
 
   const toggleButtonHandler = () => {
-    started ? pause({ withAudio: true }) : start({ withAudio: true });
+    clickSoundRef.play();
+    started ? pause() : start();
   };
 
   const toggleModalHandler = (value) => {
@@ -80,7 +96,7 @@ const Pomodoro = () => {
   }, [pomodoro]);
 
   const shadowEffect = {
-    boxShadow: `${start ? "0px 0px 10px 4px rgba(0, 0, 0, 0.25) inset" : ""}`,
+    boxShadow: `${started ? "0px 0px 10px 4px rgba(0, 0, 0, 0.25) inset" : ""}`,
   };
 
   const backgroundEffect = {
@@ -116,7 +132,6 @@ const Pomodoro = () => {
             <Timer
               startNext={nextStatusHandler}
               variant={{ color: status.fontColor }}
-              {...countdownValues}
             />
             <div className={classes.action}>
               {isStarted && (

@@ -6,21 +6,30 @@ import { APP_TITLE } from "../../../constants/configuration";
 import { POMODORO_STATUS } from "../../../constants/pomodoro-status";
 import { TASK_STATUS_VALUE } from "../../../constants/task-status";
 import useAudio from "../../../hooks/use-audio";
-import { useCountdown } from "../../../store/countdown-context";
 import { usePomodoro } from "../../../store/pomodoro";
 import { formatTime } from "../../../utils/format-time";
 import classes from "./Timer.module.css";
 
 const Timer = (props) => {
-  const { started, time, defaultTime, variant, startNext } = props;
-  const { getTask, updateTask } = usePomodoro(
-    (state) => ({
-      getTask: state.getTask,
-      updateTask: state.updateTask,
-    })
-  );
+  const { variant, startNext } = props;
+  const {
+    getTask,
+    updateTask,
+    started,
+    time,
+    defaultTime,
+    isStarted,
+    setTime,
+  } = usePomodoro((state) => ({
+    getTask: state.getTask,
+    updateTask: state.updateTask,
+    started: state.started,
+    time: state.time,
+    defaultTime: state.defaultTime,
+    isStarted: state.isStarted,
+    setTime: state.setTime,
+  }));
   const countdownAudio = useAudio(countdownSound);
-  const { countdownValues, setTime } = useCountdown();
   const currentTask = getTask(
     (task) => task.status === TASK_STATUS_VALUE.FOLLOW
   );
@@ -34,7 +43,7 @@ const Timer = (props) => {
   useEffect(() => {
     if (!started) return;
 
-    if (time === 0 && countdownValues.isStarted) return startNext();
+    if (time === 0 && isStarted) return startNext();
 
     if (time === 1000 * 5) countdownAudio.play();
 

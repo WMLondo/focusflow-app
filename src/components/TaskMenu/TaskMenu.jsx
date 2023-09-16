@@ -1,6 +1,5 @@
 import React, { useId, useState } from "react";
 import { TASK_STATUS } from "../../constants/task-status";
-import { useCountdown } from "../../store/countdown-context";
 import Button from "../ui/Button/Button";
 import DropDownElement from "../ui/DropDownElement/DropDownElement";
 import Modal from "../ui/Modal/Modal";
@@ -9,13 +8,16 @@ import classes from "./TaskMenu.module.css";
 import { usePomodoro } from "../../store/pomodoro";
 
 const TaskMenu = () => {
-  const { addTask, filter, changeFilter } = usePomodoro((state) => ({
-    addTask: state.addTask,
-    changeFilter: state.changeFilter,
-    filter: state.filter,
-  }));
+  const { addTask, filter, changeFilter, isStarted, pause, start } =
+    usePomodoro((state) => ({
+      addTask: state.addTask,
+      changeFilter: state.changeFilter,
+      filter: state.filter,
+      start: state.start,
+      pause: state.pause,
+      isStarted: state.isStarted,
+    }));
   const [dropdown, setDropdown] = useState(false);
-  const { countdownValues, start, pause } = useCountdown();
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const modalId = useId();
@@ -23,11 +25,11 @@ const TaskMenu = () => {
   const closeHandler = () => {
     setInputValue("");
     setIsOpen(false);
-    countdownValues.isStarted && start({ widthAudio: false });
+    isStarted && start();
   };
   const openHandler = () => {
     setIsOpen(true);
-    countdownValues.started && pause({ widthAudio: false });
+    isStarted && pause();
   };
   const handlerChange = (e) => setInputValue(e.target.value);
 

@@ -3,13 +3,7 @@ import { combineProvider } from "../utils/combineProvider";
 import { PomodoroProvider } from "./pomodoro-context";
 
 import { ThemeProvider } from "./theme-context";
-import { CountdownProvider } from "./countdown-context";
 
-const providers = [
-  PomodoroProvider,
-  ThemeProvider,
-  HeadProvider,
-  CountdownProvider,
-];
+const providers = [PomodoroProvider, ThemeProvider, HeadProvider];
 
 export const GlobalProvider = combineProvider(...providers);
