@@ -3,9 +3,9 @@ import { MdRestore, MdSkipNext } from "react-icons/md";
 import { CLOCK_STAGE, POMODORO_CICLE } from "../../constants/configuration";
 import { POMODORO_STATUS } from "../../constants/pomodoro-status";
 import { TASK_STATUS_VALUE } from "../../constants/task-status";
-import { useCountdown } from "../../context/countdown-context";
-import { usePomodoro } from "../../context/pomodoro-context";
-import { useTask } from "../../context/task-context";
+import { useCountdown } from "../../store/countdown-context";
+ import { usePomodoro } from "../../store/pomodoro-context";
+import { usePomodoro as useTask } from "../../store/pomodoro";
 import { formatTime } from "../../utils/format-time";
 import Button from "../ui/Button/Button";
 import Modal from "../ui/Modal/Modal";
@@ -16,7 +16,10 @@ import classes from "./Pomodoro.module.css";
 const Pomodoro = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStage, setCurrentStage] = useState(CLOCK_STAGE.POMODORO);
-  const { getTask, changeStatus } = useTask();
+  const { getTask, updateTask } = useTask((state) => ({
+    getTask: state.getTask,
+    updateTask: state.updateTask,
+  }));
   const { pomodoro, resetPomodoro, increasePomodoroHandler } = usePomodoro();
   const { countdownValues, start, pause, restart, setInitialTime } =
     useCountdown();
@@ -35,7 +38,8 @@ const Pomodoro = () => {
   };
 
   const closeTaskHandler = () => {
-    changeStatus(task, TASK_STATUS_VALUE.COMPLETE);
+    const changedStatusTask = { ...task, status: TASK_STATUS_VALUE.COMPLETE };
+    updateTask(changedStatusTask);
     toggleModalHandler();
   };
 

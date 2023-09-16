@@ -1,15 +1,19 @@
 import React, { useId, useState } from "react";
 import { TASK_STATUS } from "../../constants/task-status";
-import { useCountdown } from "../../context/countdown-context";
-import { useTask } from "../../context/task-context";
+import { useCountdown } from "../../store/countdown-context";
 import Button from "../ui/Button/Button";
 import DropDownElement from "../ui/DropDownElement/DropDownElement";
 import Modal from "../ui/Modal/Modal";
 import TaskButton from "../ui/TaskButton/TaskButton";
 import classes from "./TaskMenu.module.css";
+import { usePomodoro } from "../../store/pomodoro";
 
 const TaskMenu = () => {
-  const { addTaskHandler, filter, changeFilter } = useTask();
+  const { addTask, filter, changeFilter } = usePomodoro((state) => ({
+    addTask: state.addTask,
+    changeFilter: state.changeFilter,
+    filter: state.filter,
+  }));
   const [dropdown, setDropdown] = useState(false);
   const { countdownValues, start, pause } = useCountdown();
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +33,7 @@ const TaskMenu = () => {
 
   const addHandler = () => {
     if (!inputValue || inputValue === "") return;
-    addTaskHandler(inputValue);
+    addTask(inputValue);
     closeHandler();
   };
 

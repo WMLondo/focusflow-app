@@ -1,8 +1,8 @@
 import React from "react";
 import { MdRestore } from "react-icons/md";
 import { LAYOUT_THEME } from "../../constants/configuration";
-import { usePomodoro } from "../../context/pomodoro-context";
-import { useTheme } from "../../context/theme-context";
+import { usePomodoro } from "../../store/pomodoro-context";
+import { useTheme } from "../../store/theme-context";
 import CicleValue from "../ui/CicleValue/CicleValue";
 import Toggle from "../ui/Toggle/Toggle";
 import classes from "./Configuration.module.css";

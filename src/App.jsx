@@ -7,7 +7,7 @@ import Content from "./components/Content/Content";
 import BackgroundVideo from "./components/ui/BackgroundVideo/BackgroundVideo";
 import Loading from "./components/ui/Loading/Loading";
 import { APP_TITLE } from "./constants/configuration";
-import { useTheme } from "./context/theme-context";
+import { useTheme } from "./store/theme-context";
 
 function App() {
   const [background, setBackground] = useState(bgVideoDay);

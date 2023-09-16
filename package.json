@@ -18,7 +18,8 @@
     "react-dom": "^18.2.0",
     "react-head": "^3.4.2",
     "react-icons": "^4.10.1",
-    "worker-timers": "^7.0.75"
+    "worker-timers": "^7.0.75",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.21",

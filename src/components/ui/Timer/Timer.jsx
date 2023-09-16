@@ -5,15 +5,20 @@ import countdownSound from "../.../../../../assets/audio/countdown/0fb2d523-9d92
 import { APP_TITLE } from "../../../constants/configuration";
 import { POMODORO_STATUS } from "../../../constants/pomodoro-status";
 import { TASK_STATUS_VALUE } from "../../../constants/task-status";
-import { useCountdown } from "../../../context/countdown-context";
-import { useTask } from "../../../context/task-context";
 import useAudio from "../../../hooks/use-audio";
+import { useCountdown } from "../../../store/countdown-context";
+import { usePomodoro } from "../../../store/pomodoro";
 import { formatTime } from "../../../utils/format-time";
 import classes from "./Timer.module.css";
 
 const Timer = (props) => {
   const { started, time, defaultTime, variant, startNext } = props;
-  const { getTask, updateTaskHandler } = useTask();
+  const { getTask, updateTask } = usePomodoro(
+    (state) => ({
+      getTask: state.getTask,
+      updateTask: state.updateTask,
+    })
+  );
   const countdownAudio = useAudio(countdownSound);
   const { countdownValues, setTime } = useCountdown();
   const currentTask = getTask(
@@ -23,7 +28,7 @@ const Timer = (props) => {
   const updateInvertedTime = () => {
     if (currentTask === undefined) return;
     currentTask.investedTime += 1000;
-    updateTaskHandler(currentTask);
+    updateTask(currentTask);
   };
 
   useEffect(() => {

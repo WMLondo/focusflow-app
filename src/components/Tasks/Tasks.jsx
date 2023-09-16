@@ -1,25 +1,48 @@
 import React from "react";
 import { TASK_STATUS_VALUE } from "../../constants/task-status";
-import { useCountdown } from "../../context/countdown-context";
-import { useTask } from "../../context/task-context";
+import { useCountdown } from "../../store/countdown-context";
 import Task from "../ui/Task/Task";
 import classes from "./Tasks.module.css";
+import { usePomodoro } from "../../store/pomodoro";
+import useLocalStorage from "../../hooks/use-local-storage";
+import { useEffect } from "react";
 
 const Tasks = () => {
-  const { tasks, filter, changeStatus, removeTaskHandler } = useTask();
+  const {
+    tasks,
+    initializeTasks,
+    filter,
+    updateTask,
+    changeFollowStatus,
+    removeTask,
+  } = usePomodoro((state) => ({
+    tasks: state.tasks,
+    filter: state.filter,
+    updateTask: state.updateTask,
+    removeTask: state.removeTask,
+    initializeTasks: state.initializeTasks,
+    changeFollowStatus: state.changeFollowStatus,
+  }));
+  const [localTasks, setLocalTasks] = useLocalStorage("persist:task", []);
   const { countdownValues, pause } = useCountdown();
   let filteredTasks =
     filter !== ""
       ? tasks.filter((task) => task.status === filter)
       : tasks.filter((task) => task.status !== TASK_STATUS_VALUE.COMPLETE);
 
-  const changeStatusHandler = (task) => {
+  const changeFollowStatusHandler = (task) => {
     countdownValues.started && pause({ withAudio: true });
-    if (task.status === TASK_STATUS_VALUE.FOLLOW) {
-      return changeStatus(task, TASK_STATUS_VALUE.PENDING);
-    }
-    changeStatus(task, TASK_STATUS_VALUE.FOLLOW);
+    changeFollowStatus(task);
   };
+
+  useEffect(() => {
+    initializeTasks(localTasks);
+  }, []);
+
+  useEffect(() => {
+    const asyncSetLocalTask = async () => await setLocalTasks(tasks);
+    asyncSetLocalTask();
+  }, [tasks]);
 
   return (
     <section className={classes.container}>
@@ -28,9 +51,9 @@ const Tasks = () => {
           <Task key={task.id}>
             <Task.Title>{task.title}</Task.Title>
             <Task.Action>
-              <Task.ExitButton click={() => removeTaskHandler(task)} />
+              <Task.ExitButton click={() => removeTask(task)} />
               <Task.FollowButton
-                click={() => changeStatusHandler(task)}
+                click={() => changeFollowStatusHandler(task)}
                 status={task.status === TASK_STATUS_VALUE.FOLLOW}
               >
                 {task.status === TASK_STATUS_VALUE.FOLLOW
