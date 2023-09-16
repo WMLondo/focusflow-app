@@ -4,7 +4,6 @@ export const taskSlice = (set, get) => ({
   tasks: [],
   filter: "",
 
-  initializeTasks: (persistTask) => set(() => ({ tasks: persistTask })),
   getTask: (condition) => {
     const { tasks } = get();
     return tasks.find((task) => condition(task));

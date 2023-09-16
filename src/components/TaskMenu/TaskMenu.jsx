@@ -1,22 +1,19 @@
 import React, { useId, useState } from "react";
 import { TASK_STATUS } from "../../constants/task-status";
+import { usePomodoro } from "../../store/pomodoro";
 import Button from "../ui/Button/Button";
 import DropDownElement from "../ui/DropDownElement/DropDownElement";
 import Modal from "../ui/Modal/Modal";
 import TaskButton from "../ui/TaskButton/TaskButton";
 import classes from "./TaskMenu.module.css";
-import { usePomodoro } from "../../store/pomodoro";
 
 const TaskMenu = () => {
-  const { addTask, filter, changeFilter, isStarted, pause, start } =
-    usePomodoro((state) => ({
-      addTask: state.addTask,
-      changeFilter: state.changeFilter,
-      filter: state.filter,
-      start: state.start,
-      pause: state.pause,
-      isStarted: state.isStarted,
-    }));
+  const addTask = usePomodoro((state) => state.addTask);
+  const changeFilter = usePomodoro((state) => state.changeFilter);
+  const filter = usePomodoro((state) => state.filter);
+  const start = usePomodoro((state) => state.start);
+  const pause = usePomodoro((state) => state.pause);
+  const isStarted = usePomodoro((state) => state.addTisStartedask);
   const [dropdown, setDropdown] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");

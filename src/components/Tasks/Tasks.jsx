@@ -1,31 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
+import clickSound from "../../assets/audio/click-sound/2e27afee-350b-4e6f-bcbb-920018b752b4.mp3";
 import { TASK_STATUS_VALUE } from "../../constants/task-status";
-import useLocalStorage from "../../hooks/use-local-storage";
+import useAudio from "../../hooks/use-audio";
 import { usePomodoro } from "../../store/pomodoro";
 import Task from "../ui/Task/Task";
 import classes from "./Tasks.module.css";
-import clickSound from "../../assets/audio/click-sound/2e27afee-350b-4e6f-bcbb-920018b752b4.mp3";
-import useAudio from "../../hooks/use-audio";
 
 const Tasks = () => {
-  const {
-    tasks,
-    initializeTasks,
-    filter,
-    changeFollowStatus,
-    removeTask,
-    started,
-    pause,
-  } = usePomodoro((state) => ({
-    tasks: state.tasks,
-    filter: state.filter,
-    removeTask: state.removeTask,
-    initializeTasks: state.initializeTasks,
-    changeFollowStatus: state.changeFollowStatus,
-    started: state.started,
-    pause: state.pause,
-  }));
-  const [localTasks, setLocalTasks] = useLocalStorage("persist:task", []);
+  const tasks = usePomodoro((state) => state.tasks);
+  const filter = usePomodoro((state) => state.filter);
+  const changeFollowStatus = usePomodoro((state) => state.changeFollowStatus);
+  const removeTask = usePomodoro((state) => state.removeTask);
+  const started = usePomodoro((state) => state.started);
+  const pause = usePomodoro((state) => state.pause);
   const clickSoundRef = useAudio(clickSound);
   let filteredTasks =
     filter !== ""
@@ -39,15 +26,6 @@ const Tasks = () => {
     }
     changeFollowStatus(task);
   };
-
-  useEffect(() => {
-    initializeTasks(localTasks);
-  }, []);
-
-  useEffect(() => {
-    const asyncSetLocalTask = async () => await setLocalTasks(tasks);
-    asyncSetLocalTask();
-  }, [tasks]);
 
   return (
     <section className={classes.container}>

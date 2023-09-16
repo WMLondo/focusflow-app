@@ -11,24 +11,12 @@ import { formatTime } from "../../../utils/format-time";
 import classes from "./Timer.module.css";
 
 const Timer = (props) => {
-  const { variant, startNext } = props;
-  const {
-    getTask,
-    updateTask,
-    started,
-    time,
-    defaultTime,
-    isStarted,
-    setTime,
-  } = usePomodoro((state) => ({
-    getTask: state.getTask,
-    updateTask: state.updateTask,
-    started: state.started,
-    time: state.time,
-    defaultTime: state.defaultTime,
-    isStarted: state.isStarted,
-    setTime: state.setTime,
-  }));
+  const { variant, startNext, isStarted, started } = props;
+  const getTask = usePomodoro((state) => state.getTask);
+  const updateTask = usePomodoro((state) => state.updateTask);
+  const time = usePomodoro((state) => state.time);
+  const setTime = usePomodoro((state) => state.setTime);
+  const defaultTime = usePomodoro((state) => state.defaultTime);
   const countdownAudio = useAudio(countdownSound);
   const currentTask = getTask(
     (task) => task.status === TASK_STATUS_VALUE.FOLLOW
